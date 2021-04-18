@@ -4,16 +4,8 @@ import (
 	"testing"
 )
 
-func TestHelloWorld(t *testing.T) {
-	want := "Hello, World!"
-	msg := HelloWorld()
-	if want != msg {
-		t.Fatalf(`HelloWorld() = %q, want match for %#q, nil`, msg, want)
-	}
-}
-
 func TestYelpClientCreation(t *testing.T) {
-	apiKey := "dawefaf324125hQ#$%afsdfjl2jr2k342"
+	apiKey := "test"
 	timeout := 5000
 
 	client := YelpClient{
@@ -41,14 +33,54 @@ func TestYelpClientDefaultCreation(t *testing.T) {
 	}
 }
 
-func TestSearch(t *testing.T) {
-	apiKey := "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx"
-	timeout := 5000
+func TestYelpClientSingleFieldCreation(t *testing.T) {
+	apiKey := "test"
 
-	client := YelpClient{
-		key:     apiKey,
-		timeout: timeout,
+	client := YelpClient{key: apiKey}
+	if client.key != apiKey {
+		t.Fatalf(`YelpClient.key = %q, expected %q`, client.key, apiKey)
 	}
+}
 
-	client.Search()
+func TestYelpClientNewRequest(t *testing.T) {
+	client := YelpClient{}
+	path := "https://api.yelp.com/v3/businesses/search"
+	req := client.NewRequest(path)
+
+	if req.path != path {
+		t.Fatalf(`YelpRequest.path = %q, expected %q`, req.path, path)
+	}
+}
+
+func TestYelpRequestAddParam(t *testing.T) {
+	client := YelpClient{}
+	req := client.NewRequest("")
+	expected := "test"
+
+	req.AddParam(expected, expected)
+
+	actual, found := req.params[expected]
+	if !found {
+		t.Fatalf(`YelpRequest.param key %q, doesn't exist`, expected)
+	}
+	if actual != expected {
+		t.Fatalf(`YelpRequest.param[%q] = %q, expected %q`, expected, actual, expected)
+	}
+}
+
+func TestYelpRequestGet(t *testing.T) {
+	client := YelpClient{
+		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
+	}
+	req := client.NewRequest("https://api.yelp.com/v3/businesses/search")
+
+	req.AddParam("location", "Vancouver, Canada")
+
+	res, err := req.Get()
+	if err != nil {
+		t.Fatalf(`YelpRequest.Get error: %q`, err)
+	}
+	if res.StatusCode == 0 {
+		t.Fatalf(`YelpRequest.Get Invalid status: %q`, res.StatusCode)
+	}
 }
