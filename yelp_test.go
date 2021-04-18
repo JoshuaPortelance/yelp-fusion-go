@@ -52,12 +52,12 @@ func TestYelpClientNewRequest(t *testing.T) {
 	}
 }
 
-func TestYelpRequestAddParam(t *testing.T) {
+func TestYelpRequestAddParameter(t *testing.T) {
 	client := YelpClient{}
 	req := client.NewRequest("")
 	expected := "test"
 
-	req.AddParam(expected, expected)
+	req.AddParameter(expected, expected)
 
 	actual, found := req.params[expected]
 	if !found {
@@ -74,7 +74,7 @@ func TestYelpRequestGet(t *testing.T) {
 	}
 	req := client.NewRequest(BaseYelpUrl + "/businesses/search")
 
-	req.AddParam("location", "Vancouver, Canada")
+	req.AddParameter("location", "Vancouver, Canada")
 
 	res, err := req.Get()
 	if err != nil {
@@ -91,7 +91,7 @@ func TestYelpRequestGetInvalidKey(t *testing.T) {
 	}
 	req := client.NewRequest(BaseYelpUrl + "/businesses/search")
 
-	req.AddParam("location", "Vancouver, Canada")
+	req.AddParameter("location", "Vancouver, Canada")
 
 	res, err := req.Get()
 	if err != nil {

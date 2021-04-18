@@ -24,7 +24,7 @@ type YelpRequest struct {
 	params  map[string]string
 }
 
-func (r *YelpRequest) AddParam(name string, value string) {
+func (r *YelpRequest) AddParameter(name string, value string) {
 	r.params[name] = value
 }
 
