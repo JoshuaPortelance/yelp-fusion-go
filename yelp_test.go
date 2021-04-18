@@ -44,10 +44,10 @@ func TestYelpClientSingleFieldCreation(t *testing.T) {
 
 func TestYelpClientNewRequest(t *testing.T) {
 	client := YelpClient{}
-	path := BaseYelpUrl + "/businesses/search"
+	path := "/businesses/search"
 	req := client.NewRequest(path)
 
-	if req.path != path {
+	if req.path != BaseYelpUrl+path {
 		t.Fatalf(`YelpRequest.path = %q, expected %q`, req.path, path)
 	}
 }
@@ -72,7 +72,7 @@ func TestYelpRequestGet(t *testing.T) {
 	client := YelpClient{
 		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
 	}
-	req := client.NewRequest(BaseYelpUrl + "/businesses/search")
+	req := client.NewRequest("/businesses/search")
 
 	req.AddParameter("location", "Vancouver, Canada")
 
@@ -80,6 +80,9 @@ func TestYelpRequestGet(t *testing.T) {
 	if err != nil {
 		t.Fatalf(`YelpRequest.Get error: %q`, err)
 	}
+
+	defer res.Body.Close()
+
 	if res.StatusCode == 0 {
 		t.Fatalf(`YelpRequest.Get Invalid status: %d`, res.StatusCode)
 	}
@@ -89,7 +92,7 @@ func TestYelpRequestGetInvalidKey(t *testing.T) {
 	client := YelpClient{
 		key: "Invalid",
 	}
-	req := client.NewRequest(BaseYelpUrl + "/businesses/search")
+	req := client.NewRequest("/businesses/search")
 
 	req.AddParameter("location", "Vancouver, Canada")
 
@@ -97,6 +100,9 @@ func TestYelpRequestGetInvalidKey(t *testing.T) {
 	if err != nil {
 		t.Fatalf(`YelpRequest.Get error: %q`, err)
 	}
+
+	defer res.Body.Close()
+
 	if res.StatusCode == 0 {
 		t.Fatalf(`YelpRequest.Get Invalid status: %d`, res.StatusCode)
 	}
@@ -110,16 +116,18 @@ func TestYelpRequestInvalidParams(t *testing.T) {
 	client := YelpClient{
 		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
 	}
-	req := client.NewRequest(BaseYelpUrl + "/businesses/search")
+	req := client.NewRequest("/businesses/search")
 
 	// Not adding any parameters. Yelp Fusion requests at least the
 	// 'location' parameter to be give nfor the business search.
 
 	res, err := req.Get()
-
 	if err != nil {
 		t.Fatalf(`YelpRequest.Get error: %q`, err)
 	}
+
+	defer res.Body.Close()
+
 	if res.StatusCode == 0 {
 		t.Fatalf(`YelpRequest.Get Invalid status: %d`, res.StatusCode)
 	}

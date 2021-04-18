@@ -13,8 +13,8 @@ type YelpClient struct {
 	timeout int
 }
 
-func (c *YelpClient) NewRequest(path string) *YelpRequest {
-	return &YelpRequest{c.key, c.timeout, path, make(map[string]string)}
+func (c *YelpClient) NewRequest(endpointPath string) *YelpRequest {
+	return &YelpRequest{c.key, c.timeout, BaseYelpUrl + endpointPath, make(map[string]string)}
 }
 
 type YelpRequest struct {
@@ -52,6 +52,5 @@ func (r *YelpRequest) Get() (*http.Response, error) {
 	if err != nil {
 		return &http.Response{}, err
 	}
-	defer res.Body.Close()
 	return res, nil
 }
