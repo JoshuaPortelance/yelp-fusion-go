@@ -81,6 +81,49 @@ func TestYelpRequestGet(t *testing.T) {
 		t.Fatalf(`YelpRequest.Get error: %q`, err)
 	}
 	if res.StatusCode == 0 {
-		t.Fatalf(`YelpRequest.Get Invalid status: %q`, res.StatusCode)
+		t.Fatalf(`YelpRequest.Get Invalid status: %d`, res.StatusCode)
+	}
+}
+
+func TestYelpRequestGetInvalidKey(t *testing.T) {
+	client := YelpClient{
+		key: "Invalid",
+	}
+	req := client.NewRequest("https://api.yelp.com/v3/businesses/search")
+
+	req.AddParam("location", "Vancouver, Canada")
+
+	res, err := req.Get()
+	if err != nil {
+		t.Fatalf(`YelpRequest.Get error: %q`, err)
+	}
+	if res.StatusCode == 0 {
+		t.Fatalf(`YelpRequest.Get Invalid status: %d`, res.StatusCode)
+	}
+	if res.StatusCode != 400 {
+		t.Fatalf(`YelpRequest.Get Unexpected status: %d`, res.StatusCode)
+	}
+
+}
+
+func TestYelpRequestInvalidParams(t *testing.T) {
+	client := YelpClient{
+		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
+	}
+	req := client.NewRequest("https://api.yelp.com/v3/businesses/search")
+
+	// Not adding any parameters. Yelp Fusion requests at least the
+	// 'location' parameter to be give nfor the business search.
+
+	res, err := req.Get()
+
+	if err != nil {
+		t.Fatalf(`YelpRequest.Get error: %q`, err)
+	}
+	if res.StatusCode == 0 {
+		t.Fatalf(`YelpRequest.Get Invalid status: %d`, res.StatusCode)
+	}
+	if res.StatusCode != 400 {
+		t.Fatalf(`YelpRequest.Get Unexpected status: %d`, res.StatusCode)
 	}
 }
