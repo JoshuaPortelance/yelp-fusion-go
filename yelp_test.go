@@ -44,7 +44,7 @@ func TestYelpClientSingleFieldCreation(t *testing.T) {
 
 func TestYelpClientNewRequest(t *testing.T) {
 	client := YelpClient{}
-	path := "https://api.yelp.com/v3/businesses/search"
+	path := BaseYelpUrl + "/businesses/search"
 	req := client.NewRequest(path)
 
 	if req.path != path {
@@ -72,7 +72,7 @@ func TestYelpRequestGet(t *testing.T) {
 	client := YelpClient{
 		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
 	}
-	req := client.NewRequest("https://api.yelp.com/v3/businesses/search")
+	req := client.NewRequest(BaseYelpUrl + "/businesses/search")
 
 	req.AddParam("location", "Vancouver, Canada")
 
@@ -89,7 +89,7 @@ func TestYelpRequestGetInvalidKey(t *testing.T) {
 	client := YelpClient{
 		key: "Invalid",
 	}
-	req := client.NewRequest("https://api.yelp.com/v3/businesses/search")
+	req := client.NewRequest(BaseYelpUrl + "/businesses/search")
 
 	req.AddParam("location", "Vancouver, Canada")
 
@@ -110,7 +110,7 @@ func TestYelpRequestInvalidParams(t *testing.T) {
 	client := YelpClient{
 		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
 	}
-	req := client.NewRequest("https://api.yelp.com/v3/businesses/search")
+	req := client.NewRequest(BaseYelpUrl + "/businesses/search")
 
 	// Not adding any parameters. Yelp Fusion requests at least the
 	// 'location' parameter to be give nfor the business search.
