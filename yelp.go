@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 func HelloWorld() string {
@@ -16,14 +17,18 @@ type YelpClient struct {
 }
 
 func (c *YelpClient) Search() {
-	var url = "https://api.yelp.com/v3/businesses/search?location=Vancouver"
-	//var jsonStr = []byte(`{"location":"Vancouver, Canada", "categories":"restaurants"}`)
-	req, err := http.NewRequest("GET", url, nil)
+	var path = "https://api.yelp.com/v3/businesses/search"
+	req, err := http.NewRequest("GET", path, nil)
 	if err != nil {
 		panic(err)
 	}
+
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.key))
-	//req.Header.Set("Content-Type", "application/json")
+
+	params := url.Values{}
+	params.Add("location", "Vancouver, Canada")
+	params.Add("categories", "restaurants")
+	req.URL.RawQuery = params.Encode()
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
