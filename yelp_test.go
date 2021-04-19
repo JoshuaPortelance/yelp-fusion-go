@@ -110,7 +110,6 @@ func TestYelpRequestGetInvalidKey(t *testing.T) {
 	if res.StatusCode != 400 {
 		t.Fatalf(`YelpRequest.Get Unexpected status: %d`, res.StatusCode)
 	}
-
 }
 
 func TestYelpRequestInvalidParams(t *testing.T) {
