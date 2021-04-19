@@ -4,3 +4,9 @@ go:
 - 1.x
 
 sudo: false
+
+script:
+- go test -race -covermode=atomic -coverprofile=coverage.out
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
