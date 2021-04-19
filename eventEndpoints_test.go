@@ -3,12 +3,13 @@ package yelp
 import (
 	"encoding/json"
 	"io/ioutil"
+	"os"
 	"testing"
 )
 
 func TestNewEventSearchAndLookup(t *testing.T) {
 	client := YelpClient{
-		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
+		key: os.Getenv("YELP_API_KEY"),
 	}
 
 	// Getting a list of events.
@@ -80,7 +81,7 @@ func TestNewEventSearchAndLookup(t *testing.T) {
 
 func TestNewEventSearch(t *testing.T) {
 	client := YelpClient{
-		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
+		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventsReq := client.NewEventSearch()
 	res, err := eventsReq.Get()
@@ -109,7 +110,7 @@ func TestNewEventSearch(t *testing.T) {
 
 func TestNewFeaturedEvent(t *testing.T) {
 	client := YelpClient{
-		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
+		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventsReq := client.NewFeaturedEvent()
 	eventsReq.AddParameter("location", "Vancouver, Canada")

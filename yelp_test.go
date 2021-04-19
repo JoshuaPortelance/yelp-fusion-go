@@ -1,6 +1,7 @@
 package yelp
 
 import (
+	"os"
 	"testing"
 )
 
@@ -70,7 +71,7 @@ func TestYelpRequestAddParameter(t *testing.T) {
 
 func TestYelpRequestGet(t *testing.T) {
 	client := YelpClient{
-		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
+		key: os.Getenv("YELP_API_KEY"),
 	}
 	req := client.NewRequest("/businesses/search")
 
@@ -114,7 +115,7 @@ func TestYelpRequestGetInvalidKey(t *testing.T) {
 
 func TestYelpRequestInvalidParams(t *testing.T) {
 	client := YelpClient{
-		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
+		key: os.Getenv("YELP_API_KEY"),
 	}
 	req := client.NewRequest("/businesses/search")
 

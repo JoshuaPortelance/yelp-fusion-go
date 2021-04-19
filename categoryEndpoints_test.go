@@ -3,6 +3,7 @@ package yelp
 import (
 	"encoding/json"
 	"io/ioutil"
+	"os"
 	"testing"
 )
 
@@ -11,7 +12,7 @@ func TestNewAllCategories(t *testing.T) {
 	var err error
 
 	client := YelpClient{
-		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
+		key: os.Getenv("YELP_API_KEY"),
 	}
 	allCatReq := client.NewAllCategories()
 	res, err := allCatReq.Get()
@@ -42,7 +43,7 @@ func TestNewAllCategories(t *testing.T) {
 // Testing YelpRequest for the Category Details endpoint and unmarshalling using the provided Category type.
 func TestNewCategoryDetails(t *testing.T) {
 	client := YelpClient{
-		key: "h4lGIGYbwWvSf-TJVWUU2sp-WRTtUQb8n8N-UmCOSn9vF4Aa8LjtycdFqkwtcSArTcQgLlJLEf-T7KfSJKakKiRE5kmNldcjQ7sTK4bwefaewZfRorg-0n3v02ZEX3Yx",
+		key: os.Getenv("YELP_API_KEY"),
 	}
 	catDetailsReq := client.NewCategoryDetails("arts")
 	res, err := catDetailsReq.Get()
