@@ -1,6 +1,7 @@
 package yelp
 
 import (
+	"fmt"
 	"os"
 	"testing"
 )
@@ -62,7 +63,7 @@ func TestYelpRequestAddParameter(t *testing.T) {
 
 	actual, found := req.params[expected]
 	if !found {
-		t.Fatalf(`YelpRequest.param key %q, doesn't exist`, expected)
+		t.Fatalf(`YelpRequest.param key %q, is not in map`, expected)
 	}
 	if actual != expected {
 		t.Fatalf(`YelpRequest.param[%q] = %q, expected %q`, expected, actual, expected)
@@ -81,7 +82,6 @@ func TestYelpRequestGet(t *testing.T) {
 	if err != nil {
 		t.Fatalf(`YelpRequest.Get error: %q`, err)
 	}
-
 	defer res.Body.Close()
 
 	if res.StatusCode == 0 {
@@ -98,17 +98,19 @@ func TestYelpRequestGetInvalidKey(t *testing.T) {
 	req.AddParameter("location", "Vancouver, Canada")
 
 	res, err := req.Get()
-	if err != nil {
-		t.Fatalf(`YelpRequest.Get error: %q`, err)
+	if err == nil {
+		t.Fatalf(`Unexpected success`)
 	}
-
 	defer res.Body.Close()
 
 	if res.StatusCode == 0 {
-		t.Fatalf(`YelpRequest.Get Invalid status: %d`, res.StatusCode)
+		t.Fatalf(`Invalid status: %d`, res.StatusCode)
 	}
 	if res.StatusCode != 400 {
-		t.Fatalf(`YelpRequest.Get Unexpected status: %d`, res.StatusCode)
+		t.Fatalf(`Unexpected status: %d`, res.StatusCode)
+	}
+	if fmt.Sprint(res.StatusCode) != err.Error() {
+		t.Fatalf(`Response code %d != error message code %s`, res.StatusCode, err)
 	}
 }
 
@@ -119,19 +121,21 @@ func TestYelpRequestInvalidParams(t *testing.T) {
 	req := client.NewRequest("/businesses/search")
 
 	// Not adding any parameters. Yelp Fusion requests at least the
-	// 'location' parameter to be give nfor the business search.
+	// 'location' parameter to be given for the business search.
 
 	res, err := req.Get()
-	if err != nil {
-		t.Fatalf(`YelpRequest.Get error: %q`, err)
+	if err == nil {
+		t.Fatalf(`Unexpected success`)
 	}
-
 	defer res.Body.Close()
 
 	if res.StatusCode == 0 {
-		t.Fatalf(`YelpRequest.Get Invalid status: %d`, res.StatusCode)
+		t.Fatalf(`Invalid status: %d`, res.StatusCode)
 	}
 	if res.StatusCode != 400 {
-		t.Fatalf(`YelpRequest.Get Unexpected status: %d`, res.StatusCode)
+		t.Fatalf(`Unexpected status: %d`, res.StatusCode)
+	}
+	if fmt.Sprint(res.StatusCode) != err.Error() {
+		t.Fatalf(`Response code %d != error message code %s`, res.StatusCode, err)
 	}
 }

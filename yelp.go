@@ -1,6 +1,7 @@
 package yelp
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -14,14 +15,17 @@ type YelpClient struct {
 }
 
 func (c *YelpClient) NewRequest(endpointPath string) *YelpRequest {
-	return &YelpRequest{c.key, c.timeout, BaseYelpUrl + endpointPath, make(map[string]string)}
+	return &YelpRequest{
+		YelpClient{c.key, c.timeout},
+		BaseYelpUrl + endpointPath,
+		make(map[string]string),
+	}
 }
 
 type YelpRequest struct {
-	key     string
-	timeout int
-	path    string
-	params  map[string]string
+	YelpClient
+	path   string
+	params map[string]string
 }
 
 func (r *YelpRequest) AddParameter(name string, value string) {
@@ -50,7 +54,10 @@ func (r *YelpRequest) Get() (*http.Response, error) {
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		return &http.Response{}, err
+		return res, err
+	}
+	if res.StatusCode != 200 {
+		return res, errors.New(fmt.Sprint(res.StatusCode))
 	}
 	return res, nil
 }
