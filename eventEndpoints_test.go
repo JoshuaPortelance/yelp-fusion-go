@@ -61,7 +61,7 @@ func TestNewFeaturedEventGet(t *testing.T) {
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventReq := client.NewFeaturedEvent()
-	eventReq.AddParameter("location", "Vancouver, Canada")
+	eventReq.AddParameter("location", "Victoria, Canada")
 	_, err := eventReq.Get()
 	if err != nil {
 		t.Fatalf(`Unexpected error: %q`, err)
@@ -73,7 +73,7 @@ func TestNewFeaturedEventGetResponse(t *testing.T) {
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventReq := client.NewFeaturedEvent()
-	eventReq.AddParameter("location", "Vancouver, Canada")
+	eventReq.AddParameter("location", "Victoria, Canada")
 	response, err := eventReq.GetResponse()
 	if err != nil {
 		body, _ := io.ReadAll(response.Body)

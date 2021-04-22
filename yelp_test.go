@@ -76,7 +76,7 @@ func TestYelpRequestGet(t *testing.T) {
 	}
 	req := client.NewRequest("/businesses/search")
 
-	req.AddParameter("location", "Vancouver, Canada")
+	req.AddParameter("location", "Victoria, Canada")
 
 	res, err := req.Get()
 	if err != nil {
@@ -95,7 +95,7 @@ func TestYelpRequestGetInvalidKey(t *testing.T) {
 	}
 	req := client.NewRequest("/businesses/search")
 
-	req.AddParameter("location", "Vancouver, Canada")
+	req.AddParameter("location", "Victoria, Canada")
 
 	res, err := req.Get()
 	if err == nil {
