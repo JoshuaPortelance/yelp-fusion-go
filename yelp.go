@@ -67,6 +67,9 @@ func (r *Request) GetResponse() (*http.Response, error) {
 	return res, nil
 }
 
+// Provides a way for us to have a semi-generic return type
+// without the need for type assertions or repeated code
+// due to scoped variable assignment of varying types.
 type GetReturnType struct {
 	Business
 	Businesses
