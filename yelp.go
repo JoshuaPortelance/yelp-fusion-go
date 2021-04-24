@@ -12,32 +12,32 @@ import (
 
 const BaseYelpUrl = "https://api.yelp.com/v3"
 
-type YelpClient struct {
+type Client struct {
 	key     string
 	timeout int
 }
 
-func (c *YelpClient) NewRequest(path string, endpoint string) *YelpRequest {
-	return &YelpRequest{
-		YelpClient: YelpClient{c.key, c.timeout},
-		path:       BaseYelpUrl + path,
-		endpoint:   endpoint,
-		params:     make(map[string]string),
+func (c *Client) NewRequest(path string, endpoint string) *Request {
+	return &Request{
+		Client:   Client{c.key, c.timeout},
+		path:     BaseYelpUrl + path,
+		endpoint: endpoint,
+		params:   make(map[string]string),
 	}
 }
 
-type YelpRequest struct {
-	YelpClient
+type Request struct {
+	Client
 	path     string
 	endpoint string
 	params   map[string]string
 }
 
-func (r *YelpRequest) AddParameter(name string, value string) {
+func (r *Request) AddParameter(name string, value string) {
 	r.params[name] = value
 }
 
-func (r *YelpRequest) GetResponse() (*http.Response, error) {
+func (r *Request) GetResponse() (*http.Response, error) {
 	// Creating a standalone request as we need to modify
 	// it a bit before sending it.
 	req, err := http.NewRequest("GET", r.path, nil)
@@ -56,7 +56,7 @@ func (r *YelpRequest) GetResponse() (*http.Response, error) {
 	req.URL.RawQuery = params.Encode()
 
 	// Sending the request.
-	client := &http.Client{Timeout: time.Duration(r.YelpClient.timeout) * time.Second}
+	client := &http.Client{Timeout: time.Duration(r.Client.timeout) * time.Second}
 	res, err := client.Do(req)
 	if err != nil {
 		return res, err
@@ -67,18 +67,18 @@ func (r *YelpRequest) GetResponse() (*http.Response, error) {
 	return res, nil
 }
 
-type RequestGetReturn struct {
+type GetReturnType struct {
 	Business
 	Businesses
 	Reviews
 	Autocomplete
 	Event
 	Events
-	AllCategories
+	Categories
 	CategoryWrapper
 }
 
-func (r *YelpRequest) Get() (*RequestGetReturn, error) {
+func (r *Request) Get() (*GetReturnType, error) {
 	var err error
 	response, err := r.GetResponse()
 	if err != nil {
@@ -91,7 +91,7 @@ func (r *YelpRequest) Get() (*RequestGetReturn, error) {
 	}
 	defer response.Body.Close()
 
-	data := RequestGetReturn{}
+	data := GetReturnType{}
 
 	// Figuring out the type to use for unmarshalling.
 	switch r.endpoint {
@@ -114,8 +114,8 @@ func (r *YelpRequest) Get() (*RequestGetReturn, error) {
 		data.Events = Events{}
 		err = json.Unmarshal(responsebody, &data.Events)
 	case "AllCategories":
-		data.AllCategories = AllCategories{}
-		err = json.Unmarshal(responsebody, &data.AllCategories)
+		data.Categories = Categories{}
+		err = json.Unmarshal(responsebody, &data.Categories)
 	case "CategoryDetails":
 		data.CategoryWrapper = CategoryWrapper{}
 		err = json.Unmarshal(responsebody, &data.CategoryWrapper)

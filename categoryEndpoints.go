@@ -6,45 +6,45 @@ import (
 )
 
 /*
-YelpRequest for the All Categories endpoint.
+Request for the All Categories endpoint.
 https://www.yelp.com/developers/documentation/v3/all_categories
 */
 type AllCategoriesRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewAllCategories() *AllCategoriesRequest {
+func (yc *Client) NewAllCategories() *AllCategoriesRequest {
 	return &AllCategoriesRequest{*yc.NewRequest("/categories", "AllCategories")}
 }
 
-func (acr *AllCategoriesRequest) Get() (*AllCategories, error) {
-	data, err := acr.YelpRequest.Get()
+func (acr *AllCategoriesRequest) Get() (*Categories, error) {
+	data, err := acr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
-	return &data.AllCategories, nil
+	return &data.Categories, nil
 }
 
 func (acr *AllCategoriesRequest) GetResponse() (*http.Response, error) {
-	return acr.YelpRequest.GetResponse()
+	return acr.Request.GetResponse()
 }
 
 /*
-YelpRequest for the Category Details endpoint.
+Request for the Category Details endpoint.
 https://www.yelp.com/developers/documentation/v3/category
 */
 type CategoryDetailsRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewCategoryDetails(categoryAlias string) *CategoryDetailsRequest {
+func (yc *Client) NewCategoryDetails(categoryAlias string) *CategoryDetailsRequest {
 	return &CategoryDetailsRequest{
 		*yc.NewRequest(fmt.Sprintf("/categories/%s", categoryAlias), "CategoryDetails"),
 	}
 }
 
 func (acr *CategoryDetailsRequest) Get() (*Category, error) {
-	data, err := acr.YelpRequest.Get()
+	data, err := acr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -52,5 +52,5 @@ func (acr *CategoryDetailsRequest) Get() (*Category, error) {
 }
 
 func (acr *CategoryDetailsRequest) GetResponse() (*http.Response, error) {
-	return acr.YelpRequest.GetResponse()
+	return acr.Request.GetResponse()
 }

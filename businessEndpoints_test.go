@@ -10,7 +10,7 @@ import (
 // Phone Search endpoint tests.
 
 func TestNewPhoneSearchGet(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 
@@ -29,7 +29,7 @@ func TestNewPhoneSearchGet(t *testing.T) {
 }
 
 func TestNewPhoneSearchGetResponse(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	phoneReq := client.NewPhoneSearch()
@@ -52,7 +52,7 @@ func TestNewPhoneSearchGetResponse(t *testing.T) {
 // Transaction Search endpoint tests.
 
 func TestNewTransactionSearchGet(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	transactionReq := client.NewTransactionSearch("delivery")
@@ -70,7 +70,7 @@ func TestNewTransactionSearchGet(t *testing.T) {
 }
 
 func TestNewTransactionSearchGetResponse(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	transactionReq := client.NewTransactionSearch("delivery")
@@ -93,7 +93,7 @@ func TestNewTransactionSearchGetResponse(t *testing.T) {
 // Business Match endpoint tests.
 
 func TestNewBusinessMatchGet(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	businessMatchReq := client.NewBusinessMatch()
@@ -115,7 +115,7 @@ func TestNewBusinessMatchGet(t *testing.T) {
 }
 
 func TestNewBusinessMatchGetResponse(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	businessMatchReq := client.NewBusinessMatch()
@@ -142,7 +142,7 @@ func TestNewBusinessMatchGetResponse(t *testing.T) {
 // Business Autocomplete endpoint tests.
 
 func TestNewAutocompleteGet(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	autocompleteReq := client.NewAutocomplete()
@@ -162,7 +162,7 @@ func TestNewAutocompleteGet(t *testing.T) {
 }
 
 func TestNewAutocompleteGetResponse(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	autocompleteReq := client.NewAutocomplete()
@@ -189,7 +189,7 @@ func TestNewAutocompleteGetResponse(t *testing.T) {
 // Business Reviews endpoint tests.
 
 func TestNewBusinessSearchAndDetailsAndReviewsGet(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	businessesReq := client.NewBusinessSearch()

@@ -12,6 +12,6 @@ type CategoryWrapper struct {
 	Category Category `json:"category"`
 }
 
-type AllCategories struct {
+type Categories struct {
 	Categories []Category `json:"categories"`
 }

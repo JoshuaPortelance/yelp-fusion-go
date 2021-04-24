@@ -8,7 +8,7 @@ import (
 )
 
 func TestNewEventSearchAndLookup(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventsReq := client.NewEventSearch()
@@ -35,7 +35,7 @@ func TestNewEventSearchAndLookup(t *testing.T) {
 }
 
 func TestNewEventSearch(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventsReq := client.NewEventSearch()
@@ -52,7 +52,7 @@ func TestNewEventSearch(t *testing.T) {
 }
 
 func TestNewEventSearchResponse(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventsReq := client.NewEventSearch()
@@ -72,7 +72,7 @@ func TestNewEventSearchResponse(t *testing.T) {
 }
 
 func TestNewFeaturedEventGet(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventReq := client.NewFeaturedEvent()
@@ -87,7 +87,7 @@ func TestNewFeaturedEventGet(t *testing.T) {
 }
 
 func TestNewFeaturedEventGetResponse(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventReq := client.NewFeaturedEvent()

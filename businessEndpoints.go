@@ -6,19 +6,19 @@ import (
 )
 
 /*
-YelpRequest for the Business Search endpoint.
+Request for the Business Search endpoint.
 https://www.yelp.com/developers/documentation/v3/business_search
 */
 type BusinessSearchRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewBusinessSearch() *BusinessSearchRequest {
+func (yc *Client) NewBusinessSearch() *BusinessSearchRequest {
 	return &BusinessSearchRequest{*yc.NewRequest("/businesses/search", "BusinessSearch")}
 }
 
 func (bsr *BusinessSearchRequest) Get() (*Businesses, error) {
-	data, err := bsr.YelpRequest.Get()
+	data, err := bsr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -26,23 +26,23 @@ func (bsr *BusinessSearchRequest) Get() (*Businesses, error) {
 }
 
 func (bsr *BusinessSearchRequest) GetResponse() (*http.Response, error) {
-	return bsr.YelpRequest.GetResponse()
+	return bsr.Request.GetResponse()
 }
 
 /*
-YelpRequest for the Phone Search endpoint.
+Request for the Phone Search endpoint.
 https://www.yelp.com/developers/documentation/v3/business_search_phone
 */
 type PhoneSearchRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewPhoneSearch() *PhoneSearchRequest {
+func (yc *Client) NewPhoneSearch() *PhoneSearchRequest {
 	return &PhoneSearchRequest{*yc.NewRequest("/businesses/search/phone", "PhoneSearch")}
 }
 
 func (psr *PhoneSearchRequest) Get() (*Businesses, error) {
-	data, err := psr.YelpRequest.Get()
+	data, err := psr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -50,25 +50,25 @@ func (psr *PhoneSearchRequest) Get() (*Businesses, error) {
 }
 
 func (psr *PhoneSearchRequest) GetResponse() (*http.Response, error) {
-	return psr.YelpRequest.GetResponse()
+	return psr.Request.GetResponse()
 }
 
 /*
-YelpRequest for the Transaction Search endpoint.
+Request for the Transaction Search endpoint.
 https://www.yelp.com/developers/documentation/v3/transaction_search
 */
 type TransactionSearchRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewTransactionSearch(transactionType string) *TransactionSearchRequest {
+func (yc *Client) NewTransactionSearch(transactionType string) *TransactionSearchRequest {
 	return &TransactionSearchRequest{
 		*yc.NewRequest(fmt.Sprintf("/transactions/%s/search", transactionType), "TransactionSearch"),
 	}
 }
 
 func (tsr *TransactionSearchRequest) Get() (*Businesses, error) {
-	data, err := tsr.YelpRequest.Get()
+	data, err := tsr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -76,25 +76,25 @@ func (tsr *TransactionSearchRequest) Get() (*Businesses, error) {
 }
 
 func (tsr *TransactionSearchRequest) GetResponse() (*http.Response, error) {
-	return tsr.YelpRequest.GetResponse()
+	return tsr.Request.GetResponse()
 }
 
 /*
-YelpRequest for the Business Details endpoint.
+Request for the Business Details endpoint.
 https://www.yelp.com/developers/documentation/v3/business
 */
 type BusinessDetailsRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewBusinessDetails(businessId string) *BusinessDetailsRequest {
+func (yc *Client) NewBusinessDetails(businessId string) *BusinessDetailsRequest {
 	return &BusinessDetailsRequest{
 		*yc.NewRequest(fmt.Sprintf("/businesses/%s", businessId), "BusinessDetails"),
 	}
 }
 
 func (bdr *BusinessDetailsRequest) Get() (*Business, error) {
-	data, err := bdr.YelpRequest.Get()
+	data, err := bdr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -102,23 +102,23 @@ func (bdr *BusinessDetailsRequest) Get() (*Business, error) {
 }
 
 func (bdr *BusinessDetailsRequest) GetResponse() (*http.Response, error) {
-	return bdr.YelpRequest.GetResponse()
+	return bdr.Request.GetResponse()
 }
 
 /*
-YelpRequest for the Business Match endpoint.
+Request for the Business Match endpoint.
 https://www.yelp.com/developers/documentation/v3/business_match
 */
 type BusinessMatchRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewBusinessMatch() *BusinessMatchRequest {
+func (yc *Client) NewBusinessMatch() *BusinessMatchRequest {
 	return &BusinessMatchRequest{*yc.NewRequest("/businesses/matches", "BusinessMatch")}
 }
 
 func (bmr *BusinessMatchRequest) Get() (*Businesses, error) {
-	data, err := bmr.YelpRequest.Get()
+	data, err := bmr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -126,25 +126,25 @@ func (bmr *BusinessMatchRequest) Get() (*Businesses, error) {
 }
 
 func (bmr *BusinessMatchRequest) GetResponse() (*http.Response, error) {
-	return bmr.YelpRequest.GetResponse()
+	return bmr.Request.GetResponse()
 }
 
 /*
-YelpRequest for the Reviews endpoint.
+Request for the Reviews endpoint.
 https://www.yelp.com/developers/documentation/v3/business_reviews
 */
 type ReviewsRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewReviews(businessId string) *ReviewsRequest {
+func (yc *Client) NewReviews(businessId string) *ReviewsRequest {
 	return &ReviewsRequest{
 		*yc.NewRequest(fmt.Sprintf("/businesses/%s/reviews", businessId), "Reviews"),
 	}
 }
 
 func (rr *ReviewsRequest) Get() (*Reviews, error) {
-	data, err := rr.YelpRequest.Get()
+	data, err := rr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -152,23 +152,23 @@ func (rr *ReviewsRequest) Get() (*Reviews, error) {
 }
 
 func (rr *ReviewsRequest) GetResponse() (*http.Response, error) {
-	return rr.YelpRequest.GetResponse()
+	return rr.Request.GetResponse()
 }
 
 /*
-YelpRequest for the Autocomplete endpoint.
+Request for the Autocomplete endpoint.
 https://www.yelp.com/developers/documentation/v3/autocomplete
 */
 type AutocompleteRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewAutocomplete() *AutocompleteRequest {
+func (yc *Client) NewAutocomplete() *AutocompleteRequest {
 	return &AutocompleteRequest{*yc.NewRequest("/autocomplete", "Autocomplete")}
 }
 
 func (acr *AutocompleteRequest) Get() (*Autocomplete, error) {
-	data, err := acr.YelpRequest.Get()
+	data, err := acr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -176,5 +176,5 @@ func (acr *AutocompleteRequest) Get() (*Autocomplete, error) {
 }
 
 func (acr *AutocompleteRequest) GetResponse() (*http.Response, error) {
-	return acr.YelpRequest.GetResponse()
+	return acr.Request.GetResponse()
 }

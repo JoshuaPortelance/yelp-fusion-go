@@ -6,21 +6,21 @@ import (
 )
 
 /*
-YelpRequest for the Event Lookup endpoint.
+Request for the Event Lookup endpoint.
 https://www.yelp.com/developers/documentation/v3/event
 */
 type EventLookupRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewEventLookup(eventId string) *EventLookupRequest {
+func (yc *Client) NewEventLookup(eventId string) *EventLookupRequest {
 	return &EventLookupRequest{
 		*yc.NewRequest(fmt.Sprintf("/events/%s", eventId), "EventLookup"),
 	}
 }
 
 func (elr *EventLookupRequest) Get() (*Event, error) {
-	data, err := elr.YelpRequest.Get()
+	data, err := elr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -28,22 +28,22 @@ func (elr *EventLookupRequest) Get() (*Event, error) {
 }
 
 func (elr *EventLookupRequest) GetResponse() (*http.Response, error) {
-	return elr.YelpRequest.GetResponse()
+	return elr.Request.GetResponse()
 }
 
-// YelpRequest for the Event Search endpoint.
+// Request for the Event Search endpoint.
 //
 // https://www.yelp.com/developers/documentation/v3/event_search
 type EventSearchRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewEventSearch() *EventSearchRequest {
+func (yc *Client) NewEventSearch() *EventSearchRequest {
 	return &EventSearchRequest{*yc.NewRequest("/events", "EventSearch")}
 }
 
 func (esr *EventSearchRequest) Get() (*Events, error) {
-	data, err := esr.YelpRequest.Get()
+	data, err := esr.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -51,22 +51,22 @@ func (esr *EventSearchRequest) Get() (*Events, error) {
 }
 
 func (esr *EventSearchRequest) GetResponse() (*http.Response, error) {
-	return esr.YelpRequest.GetResponse()
+	return esr.Request.GetResponse()
 }
 
-// YelpRequest for the Featured Event endpoint.
+// Request for the Featured Event endpoint.
 //
 // https://www.yelp.com/developers/documentation/v3/featured_event
 type FeaturedEventRequest struct {
-	YelpRequest
+	Request
 }
 
-func (yc *YelpClient) NewFeaturedEvent() *FeaturedEventRequest {
+func (yc *Client) NewFeaturedEvent() *FeaturedEventRequest {
 	return &FeaturedEventRequest{*yc.NewRequest("/events/featured", "FeaturedEvent")}
 }
 
 func (fer *FeaturedEventRequest) Get() (*Event, error) {
-	data, err := fer.YelpRequest.Get()
+	data, err := fer.Request.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -74,5 +74,5 @@ func (fer *FeaturedEventRequest) Get() (*Event, error) {
 }
 
 func (fer *FeaturedEventRequest) GetResponse() (*http.Response, error) {
-	return fer.YelpRequest.GetResponse()
+	return fer.Request.GetResponse()
 }

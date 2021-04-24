@@ -8,7 +8,7 @@ import (
 )
 
 func TestNewAllCategoriesGet(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	allCatReq := client.NewAllCategories()
@@ -25,7 +25,7 @@ func TestNewAllCategoriesGet(t *testing.T) {
 }
 
 func TestNewAllCategoriesGetResponse(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	allCatReq := client.NewAllCategories()
@@ -45,7 +45,7 @@ func TestNewAllCategoriesGetResponse(t *testing.T) {
 }
 
 func TestNewCategoryDetailsGet(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	catDetailsReq := client.NewCategoryDetails("arts")
@@ -59,7 +59,7 @@ func TestNewCategoryDetailsGet(t *testing.T) {
 }
 
 func TestNewCategoryDetailsGetResponse(t *testing.T) {
-	client := YelpClient{
+	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	catDetailsReq := client.NewAllCategories()
