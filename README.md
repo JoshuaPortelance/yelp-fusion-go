@@ -1,51 +1,126 @@
-# yelp-go
+# go-yelp
 [![Build Status](https://travis-ci.com/JoshuaPortelance/go-yelp.svg?token=qaKmxckZFKPT1MXTqhmw&branch=main)](https://travis-ci.com/JoshuaPortelance/go-yelp)
 [![codecov](https://codecov.io/gh/JoshuaPortelance/go-yelp/branch/main/graph/badge.svg?token=F8G736FYQ3)](https://codecov.io/gh/JoshuaPortelance/go-yelp)
 
 Yelp Fusion API golang package with no external dependencies.
 
+<br/>
+
+## Table of Contents
+Interface:
+  * [Get](#get)
+  * [GetResponse](#get)
+
+Business Endpoints:
+  * [Business Search](#business-search)
+  * [Phone](#phone-search)
+  * [Delivery](#transaction-search)
+  * [Business Details](#business-details)
+  * [Match](#business-match)
+  * [Reviews](#reviews)
+  * [Autocomplete](#autocomplete)
+
+Event Endpoints:
+  * [Event Lookup](#event-lookup)
+  * [Event Search](#event-search)
+  * [Featured Event](#featured-event)
+
+Category Endpoints:
+  * [All Categories](#all-categories)
+  * [Category Details](#category-details)
+
+<br/>
+
+## Interface
+
+### Get
+Returns the unmarshalled JSON data from the response following the outline and types from the Yelp Fusion specification.
+
+### GetResponse
+Returns an open and unmodified [http.Response](https://golang.org/pkg/net/http/#Response) pointer.
+
 ## Business Endpoints 
 
 ### Business Search
 ```golang
-package main
-
-import (
-	"github.com/JoshuaPortelance/go-yelp"
-)
-
 client := yelp.client{key:"YOUR_API_KEY"};
 search := client.NewBusinessSearch()
 search.AddParameter("location", "Victoria, British Columbia")
 search.AddParameter("term", "Red Fish Blue Fish")
-res, _ := search.Get() // *http.Response
-resbody, _ := ioutil.ReadAll(res.Body)
-defer res.Body.Close()
-businesses := Businesses{}
-json.Unmarshal(resbody, &businesses)
-
-// Goal Option 1
-client := yelp.client{key:"YOUR_API_KEY"};
-search := client.NewBusinessSearch()
-search.AddParameter("location", "Victoria, British Columbia")
-search.AddParameter("term", "Red Fish Blue Fish")
-res, unmarshalBody, err := search.Get() // res is already closed.
-
-// Goal Option 2
-client := yelp.client{key:"YOUR_API_KEY"};
-search := client.NewBusinessSearch()
-search.AddParameter("location", "Victoria, British Columbia")
-search.AddParameter("term", "Red Fish Blue Fish")
-res, err := search.GetOpenResponse()
-//... do something with response ...
-defer res.Body.Close() // Don't forget to close it.
-
-client.search({
-  term: 'Four Barrel Coffee',
-  location: 'san francisco, ca',
-}).then(response => {
-  console.log(response.jsonBody.businesses[0].name);
-}).catch(e => {
-  console.log(e);
-});
+data, _ := search.Get()
+fmt.Println(data.Businesses[0].Name)
 ```
+
+### Phone Search
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewPhoneSearch()
+search.AddParameter("phone", "+12502986877")
+data, _ := search.Get()
+fmt.Println(data.Businesses[0].Name)
+```
+
+### Transaction Search
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewTransactionSearch("delivery")
+search.AddParameter("location", "Seattle, Washington")
+data, _ := search.Get()
+fmt.Println(data.Businesses[0].Name)
+```
+
+### Business Details
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewBusinessDetails("red-fish-blue-fish-victoria")
+search.AddParameter("location", "Victoria, British Columbia")
+data, _ := search.Get()
+fmt.Println(data.Name)
+```
+
+### Business Match
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewBusinessMatch()
+search.AddParameter("name", "Red Fish Blue Fish")
+search.AddParameter("address1", "1006 Wharf Street")
+search.AddParameter("city", "Victoria")
+search.AddParameter("state", "BC")
+search.AddParameter("country", "CA")
+data, _ := search.Get()
+fmt.Println(data.Businesses[0].Name)
+```
+
+### Reviews
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewReviews("red-fish-blue-fish-victoria")
+search.AddParameter("location", "Victoria, British Columbia")
+data, _ := search.Get()
+fmt.Println(data.Reviews[0].Text)
+```
+
+### Autocomplete
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewAutocomplete()
+search.AddParameter("text", "Red Fish")
+search.AddParameter("latitude", "48.4243002")
+search.AddParameter("longitude", "-123.3706659")
+data, _ := search.Get()
+fmt.Println(data.Terms[0].Text)
+```
+<br/>
+
+## Event Endpoints
+
+### Event Lookup
+### Event Search
+### Featured Event
+
+<br/>
+
+## Category Endpoints 
+
+### All Categories
+### Category Details
