@@ -8,6 +8,10 @@ type Category struct {
 	CountryBlacklist []string `json:"country_blacklist"`
 }
 
+type CategoryWrapper struct {
+	Category Category `json:"category"`
+}
+
 type AllCategories struct {
 	Categories []Category `json:"categories"`
 }

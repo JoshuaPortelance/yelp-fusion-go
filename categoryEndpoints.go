@@ -69,12 +69,12 @@ func (acr *CategoryDetailsRequest) Get() (*Category, error) {
 	}
 	defer response.Body.Close()
 
-	category := Category{}
-	err = json.Unmarshal(responsebody, &category)
+	categoryWrapper := CategoryWrapper{}
+	err = json.Unmarshal(responsebody, &categoryWrapper)
 	if err != nil {
 		return &Category{}, err
 	}
-	return &category, nil
+	return &categoryWrapper.Category, nil
 }
 
 func (acr *CategoryDetailsRequest) GetResponse() (*http.Response, error) {

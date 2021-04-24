@@ -7,9 +7,10 @@ import (
 	"net/http"
 )
 
-// YelpRequest for the Business Search endpoint.
-//
-// https://www.yelp.com/developers/documentation/v3/business_search
+/*
+YelpRequest for the Business Search endpoint.
+https://www.yelp.com/developers/documentation/v3/business_search
+*/
 type BusinessSearchRequest struct {
 	YelpRequest
 }
@@ -42,15 +43,16 @@ func (bsr *BusinessSearchRequest) GetResponse() (*http.Response, error) {
 	return bsr.YelpRequest.Get()
 }
 
-// YelpRequest for the Phone Search endpoint.
-//
-// https://www.yelp.com/developers/documentation/v3/business_search_phone
+/*
+YelpRequest for the Phone Search endpoint.
+https://www.yelp.com/developers/documentation/v3/business_search_phone
+*/
 type PhoneSearchRequest struct {
 	YelpRequest
 }
 
-func (yc *YelpClient) NewPhoneSearch() *BusinessSearchRequest {
-	return &BusinessSearchRequest{*yc.NewRequest("/businesses/search/phone")}
+func (yc *YelpClient) NewPhoneSearch() *PhoneSearchRequest {
+	return &PhoneSearchRequest{*yc.NewRequest("/businesses/search/phone")}
 }
 
 func (psr *PhoneSearchRequest) Get() (*Businesses, error) {
@@ -77,9 +79,10 @@ func (psr *PhoneSearchRequest) GetResponse() (*http.Response, error) {
 	return psr.YelpRequest.Get()
 }
 
-// YelpRequest for the Transaction Search endpoint.
-//
-// https://www.yelp.com/developers/documentation/v3/transaction_search
+/*
+YelpRequest for the Transaction Search endpoint.
+https://www.yelp.com/developers/documentation/v3/transaction_search
+*/
 type TransactionSearchRequest struct {
 	YelpRequest
 }
@@ -114,9 +117,10 @@ func (tsr *TransactionSearchRequest) GetResponse() (*http.Response, error) {
 	return tsr.YelpRequest.Get()
 }
 
-// YelpRequest for the Business Details endpoint.
-//
-// https://www.yelp.com/developers/documentation/v3/business
+/*
+YelpRequest for the Business Details endpoint.
+https://www.yelp.com/developers/documentation/v3/business
+*/
 type BusinessDetailsRequest struct {
 	YelpRequest
 }
@@ -151,9 +155,10 @@ func (bdr *BusinessDetailsRequest) GetResponse() (*http.Response, error) {
 	return bdr.YelpRequest.Get()
 }
 
-// YelpRequest for the Business Match endpoint.
-//
-// https://www.yelp.com/developers/documentation/v3/business_match
+/*
+YelpRequest for the Business Match endpoint.
+https://www.yelp.com/developers/documentation/v3/business_match
+*/
 type BusinessMatchRequest struct {
 	YelpRequest
 }
@@ -186,9 +191,10 @@ func (bmr *BusinessMatchRequest) GetResponse() (*http.Response, error) {
 	return bmr.YelpRequest.Get()
 }
 
-// YelpRequest for the Reviews endpoint.
-//
-// https://www.yelp.com/developers/documentation/v3/business_reviews
+/*
+YelpRequest for the Reviews endpoint.
+https://www.yelp.com/developers/documentation/v3/business_reviews
+*/
 type ReviewsRequest struct {
 	YelpRequest
 }
@@ -223,9 +229,10 @@ func (rr *ReviewsRequest) GetResponse() (*http.Response, error) {
 	return rr.YelpRequest.Get()
 }
 
-// YelpRequest for the Autocomplete endpoint.
-//
-// https://www.yelp.com/developers/documentation/v3/autocomplete
+/*
+YelpRequest for the Autocomplete endpoint.
+https://www.yelp.com/developers/documentation/v3/autocomplete
+*/
 type AutocompleteRequest struct {
 	YelpRequest
 }

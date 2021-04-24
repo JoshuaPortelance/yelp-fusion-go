@@ -12,9 +12,15 @@ func TestNewAllCategoriesGet(t *testing.T) {
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	allCatReq := client.NewAllCategories()
-	_, err := allCatReq.Get()
+	data, err := allCatReq.Get()
 	if err != nil {
 		t.Fatalf(`Unexpected error: %q`, err)
+	}
+	if len(data.Categories) == 0 {
+		t.Fatalf(`Didn't find any categories. %v+`, data)
+	}
+	if data.Categories[0].Alias == "" {
+		t.Fatalf(`Invalid category. %v+`, data)
 	}
 }
 
@@ -43,9 +49,12 @@ func TestNewCategoryDetailsGet(t *testing.T) {
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	catDetailsReq := client.NewCategoryDetails("arts")
-	_, err := catDetailsReq.Get()
+	data, err := catDetailsReq.Get()
 	if err != nil {
 		t.Fatalf(`Unexpected error: %q`, err)
+	}
+	if data.Alias != "arts" {
+		t.Fatalf(`Invalid category. %v+`, data)
 	}
 }
 

@@ -16,12 +16,21 @@ func TestNewEventSearchAndLookup(t *testing.T) {
 	if eventsErr != nil {
 		t.Fatalf(`Unexpected error: %q`, eventsErr)
 	}
+	if events.Total == 0 {
+		t.Fatalf(`Didn't find any events. %v+`, events)
+	}
+	if events.Events[0].Name == "" {
+		t.Fatalf(`Invalid event. %v+`, events)
+	}
 
 	// Doing a detailed lookup using the found Id.
 	eventReq := client.NewEventLookup(events.Events[0].Id)
-	_, eventErr := eventReq.Get()
+	event, eventErr := eventReq.Get()
 	if eventErr != nil {
 		t.Fatalf(`Unexpected error: %q`, eventErr)
+	}
+	if event.Name == "" {
+		t.Fatalf(`Invalid event. %v+`, event)
 	}
 }
 
@@ -30,9 +39,15 @@ func TestNewEventSearch(t *testing.T) {
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventsReq := client.NewEventSearch()
-	_, err := eventsReq.Get()
+	data, err := eventsReq.Get()
 	if err != nil {
 		t.Fatalf(`Unexpected error: %q`, err)
+	}
+	if data.Total == 0 {
+		t.Fatalf(`Didn't find any events. %v+`, data)
+	}
+	if data.Events[0].Name == "" {
+		t.Fatalf(`Invalid event. %v+`, data)
 	}
 }
 
@@ -61,10 +76,13 @@ func TestNewFeaturedEventGet(t *testing.T) {
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventReq := client.NewFeaturedEvent()
-	eventReq.AddParameter("location", "Victoria, Canada")
-	_, err := eventReq.Get()
+	eventReq.AddParameter("location", "Seattle, Washington")
+	data, err := eventReq.Get()
 	if err != nil {
 		t.Fatalf(`Unexpected error: %q`, err)
+	}
+	if data.Name == "" {
+		t.Fatalf(`Invalid event. %v+`, data)
 	}
 }
 
@@ -73,7 +91,7 @@ func TestNewFeaturedEventGetResponse(t *testing.T) {
 		key: os.Getenv("YELP_API_KEY"),
 	}
 	eventReq := client.NewFeaturedEvent()
-	eventReq.AddParameter("location", "Victoria, Canada")
+	eventReq.AddParameter("location", "Vancouver, Canada")
 	response, err := eventReq.GetResponse()
 	if err != nil {
 		body, _ := io.ReadAll(response.Body)

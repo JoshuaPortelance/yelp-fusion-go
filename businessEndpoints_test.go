@@ -16,9 +16,15 @@ func TestNewPhoneSearchGet(t *testing.T) {
 
 	phoneReq := client.NewPhoneSearch()
 	phoneReq.AddParameter("phone", "+12502986877")
-	_, err := phoneReq.Get()
+	data, err := phoneReq.Get()
 	if err != nil {
 		t.Fatalf(`Unexpected error: %q`, err)
+	}
+	if data.Total == 0 {
+		t.Fatalf(`Didn't find any businesses. %v+`, data)
+	}
+	if data.Businesses[0].Name == "" {
+		t.Fatalf(`Business has no name. %v+`, data)
 	}
 }
 
@@ -51,9 +57,15 @@ func TestNewTransactionSearchGet(t *testing.T) {
 	}
 	transactionReq := client.NewTransactionSearch("delivery")
 	transactionReq.AddParameter("location", "Seattle, Washington")
-	_, err := transactionReq.Get()
+	data, err := transactionReq.Get()
 	if err != nil {
 		t.Fatalf(`Unexpected error: %q`, err)
+	}
+	if data.Total == 0 {
+		t.Fatalf(`Didn't find any businesses. %v+`, data)
+	}
+	if data.Businesses[0].Name == "" {
+		t.Fatalf(`Business has no name. %v+`, data)
 	}
 }
 
@@ -90,9 +102,15 @@ func TestNewBusinessMatchGet(t *testing.T) {
 	businessMatchReq.AddParameter("city", "Victoria")
 	businessMatchReq.AddParameter("state", "BC")
 	businessMatchReq.AddParameter("country", "CA")
-	_, err := businessMatchReq.Get()
+	data, err := businessMatchReq.Get()
 	if err != nil {
 		t.Fatalf(`Unexpected error: %q`, err)
+	}
+	if len(data.Businesses) == 0 {
+		t.Fatalf(`Didn't find any businesses. %v+`, data)
+	}
+	if data.Businesses[0].Name == "" {
+		t.Fatalf(`Business has no name. %v+`, data)
 	}
 }
 
@@ -131,9 +149,15 @@ func TestNewAutocompleteGet(t *testing.T) {
 	autocompleteReq.AddParameter("text", "Red Fish")
 	autocompleteReq.AddParameter("latitude", "48.4243002")
 	autocompleteReq.AddParameter("longitude", "-123.3706659")
-	_, err := autocompleteReq.Get()
+	data, err := autocompleteReq.Get()
 	if err != nil {
 		t.Fatalf(`Unexpected error: %q`, err)
+	}
+	if len(data.Terms) == 0 {
+		t.Fatalf(`Didn't autocomplete to any terms. %v+`, data)
+	}
+	if data.Terms[0].Text == "" {
+		t.Fatalf(`Invalid term. %v+`, data)
 	}
 }
 
@@ -174,16 +198,31 @@ func TestNewBusinessSearchAndDetailsAndReviewsGet(t *testing.T) {
 	if businessesErr != nil {
 		t.Fatalf(`Unexpected error: %q`, businessesErr)
 	}
+	if businesses.Total == 0 {
+		t.Fatalf(`Didn't find any businesses. %v+`, businesses)
+	}
+	if businesses.Businesses[0].Name == "" {
+		t.Fatalf(`Business has no name. %v+`, businesses)
+	}
 
 	businessReq := client.NewBusinessDetails(string(businesses.Businesses[0].Id))
-	_, businessErr := businessReq.Get()
+	business, businessErr := businessReq.Get()
 	if businessErr != nil {
 		t.Fatalf(`Unexpected error: %q`, businessErr)
 	}
+	if business.Name == "" {
+		t.Fatalf(`Business has no name. %v+`, business)
+	}
 
 	reviewsReq := client.NewReviews(string(businesses.Businesses[0].Id))
-	_, reviewsErr := reviewsReq.Get()
+	reviews, reviewsErr := reviewsReq.Get()
 	if reviewsErr != nil {
 		t.Fatalf(`Unexpected error: %q`, reviewsErr)
+	}
+	if reviews.Total == 0 {
+		t.Fatalf(`Found no reviews. %v+`, reviews)
+	}
+	if reviews.Reviews[0].Text == "" {
+		t.Fatalf(`Invalid review. %v+`, reviews)
 	}
 }
