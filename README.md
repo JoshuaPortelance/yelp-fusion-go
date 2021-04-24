@@ -4,6 +4,8 @@
 
 Yelp Fusion API golang package with no external dependencies.
 
+Please refer to official [Yelp Fusion documentation](https://www.yelp.com/developers/documentation/v3) for the request/response models.
+
 <br/>
 
 ## Table of Contents
@@ -34,7 +36,7 @@ Category Endpoints:
 ## Interface
 
 ### Get
-Returns the unmarshalled JSON data from the response following the outline and types from the Yelp Fusion specification.
+Returns the unmarshalled JSON data following response model from the [Yelp Fusion documentation](https://www.yelp.com/developers/documentation/v3).
 
 ### GetResponse
 Returns an open and unmodified [http.Response](https://golang.org/pkg/net/http/#Response) pointer.
@@ -115,12 +117,47 @@ fmt.Println(data.Terms[0].Text)
 ## Event Endpoints
 
 ### Event Lookup
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewEventLookup("red-fish-blue-fish-victoria")
+data, _ := search.Get()
+fmt.Println(data.Description)
+```
+
 ### Event Search
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewEventSearch()
+search.AddParameter("location", "Victoria, British Columbia")
+data, _ := search.Get()
+fmt.Println(data.Events[0].Name)
+```
+
 ### Featured Event
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewFeaturedEvent()
+search.AddParameter("location", "Victoria, British Columbia")
+data, _ := search.Get()
+fmt.Println(data.Description)
+```
 
 <br/>
 
 ## Category Endpoints 
 
 ### All Categories
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewAllCategories()
+data, _ := search.Get()
+fmt.Println(data.Categories[0].Alias)
+```
+
 ### Category Details
+```golang
+client := yelp.client{key:"YOUR_API_KEY"};
+search := client.NewCategoryDetails("arts")
+data, _ := search.Get()
+fmt.Println(data.Title)
+```
