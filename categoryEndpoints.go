@@ -1,7 +1,6 @@
 package yelp
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 )
@@ -23,11 +22,7 @@ func (acr *AllCategoriesRequest) Get() (*AllCategories, error) {
 	if err != nil {
 		return nil, err
 	}
-	categories, ok := data.(AllCategories)
-	if !ok {
-		return nil, errors.New("failed to convert interface to AllCategories")
-	}
-	return &categories, nil
+	return &data.AllCategories, nil
 }
 
 func (acr *AllCategoriesRequest) GetResponse() (*http.Response, error) {
@@ -53,11 +48,7 @@ func (acr *CategoryDetailsRequest) Get() (*Category, error) {
 	if err != nil {
 		return nil, err
 	}
-	categoryWrapper, ok := data.(CategoryWrapper)
-	if !ok {
-		return nil, errors.New("failed to convert interface to CategoryWrapper")
-	}
-	return &categoryWrapper.Category, nil
+	return &data.CategoryWrapper.Category, nil
 }
 
 func (acr *CategoryDetailsRequest) GetResponse() (*http.Response, error) {

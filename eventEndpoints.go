@@ -24,8 +24,7 @@ func (elr *EventLookupRequest) Get() (*Event, error) {
 	if err != nil {
 		return nil, err
 	}
-	event := data.(Event)
-	return &event, nil
+	return &data.Event, nil
 }
 
 func (elr *EventLookupRequest) GetResponse() (*http.Response, error) {
@@ -48,8 +47,7 @@ func (esr *EventSearchRequest) Get() (*Events, error) {
 	if err != nil {
 		return nil, err
 	}
-	events := data.(Events)
-	return &events, nil
+	return &data.Events, nil
 }
 
 func (esr *EventSearchRequest) GetResponse() (*http.Response, error) {
@@ -72,8 +70,7 @@ func (fer *FeaturedEventRequest) Get() (*Event, error) {
 	if err != nil {
 		return nil, err
 	}
-	event := data.(Event)
-	return &event, nil
+	return &data.Event, nil
 }
 
 func (fer *FeaturedEventRequest) GetResponse() (*http.Response, error) {

@@ -67,7 +67,19 @@ func (r *YelpRequest) GetResponse() (*http.Response, error) {
 	return res, nil
 }
 
-func (r *YelpRequest) Get() (interface{}, error) {
+type RequestGetReturn struct {
+	Business
+	Businesses
+	Reviews
+	Autocomplete
+	Event
+	Events
+	AllCategories
+	CategoryWrapper
+}
+
+func (r *YelpRequest) Get() (*RequestGetReturn, error) {
+	var err error
 	response, err := r.GetResponse()
 	if err != nil {
 		return nil, err
@@ -79,65 +91,40 @@ func (r *YelpRequest) Get() (interface{}, error) {
 	}
 	defer response.Body.Close()
 
+	data := RequestGetReturn{}
+
 	// Figuring out the type to use for unmarshalling.
 	switch r.endpoint {
 	case "BusinessSearch", "PhoneSearch", "TransactionSearch", "BusinessMatch":
-		data := Businesses{}
-		err = json.Unmarshal(responsebody, &data)
-		if err != nil {
-			return nil, err
-		}
-		return data, nil
+		data.Businesses = Businesses{}
+		err = json.Unmarshal(responsebody, &data.Businesses)
 	case "BusinessDetails":
-		data := Business{}
-		err = json.Unmarshal(responsebody, &data)
-		if err != nil {
-			return nil, err
-		}
-		return data, nil
+		data.Business = Business{}
+		err = json.Unmarshal(responsebody, &data.Business)
 	case "Reviews":
-		data := Reviews{}
-		err = json.Unmarshal(responsebody, &data)
-		if err != nil {
-			return nil, err
-		}
-		return data, nil
+		data.Reviews = Reviews{}
+		err = json.Unmarshal(responsebody, &data.Reviews)
 	case "Autocomplete":
-		data := Autocomplete{}
-		err = json.Unmarshal(responsebody, &data)
-		if err != nil {
-			return nil, err
-		}
-		return data, nil
+		data.Autocomplete = Autocomplete{}
+		err = json.Unmarshal(responsebody, &data.Autocomplete)
 	case "EventLookup", "FeaturedEvent":
-		data := Event{}
-		err = json.Unmarshal(responsebody, &data)
-		if err != nil {
-			return nil, err
-		}
-		return data, nil
+		data.Event = Event{}
+		err = json.Unmarshal(responsebody, &data.Event)
 	case "EventSearch":
-		data := Events{}
-		err = json.Unmarshal(responsebody, &data)
-		if err != nil {
-			return nil, err
-		}
-		return data, nil
+		data.Events = Events{}
+		err = json.Unmarshal(responsebody, &data.Events)
 	case "AllCategories":
-		data := AllCategories{}
-		err = json.Unmarshal(responsebody, &data)
-		if err != nil {
-			return nil, err
-		}
-		return data, nil
+		data.AllCategories = AllCategories{}
+		err = json.Unmarshal(responsebody, &data.AllCategories)
 	case "CategoryDetails":
-		data := CategoryWrapper{}
-		err = json.Unmarshal(responsebody, &data)
-		if err != nil {
-			return nil, err
-		}
-		return data, nil
+		data.CategoryWrapper = CategoryWrapper{}
+		err = json.Unmarshal(responsebody, &data.CategoryWrapper)
 	default:
 		return nil, errors.New("unknown endpoint key")
 	}
+
+	if err != nil {
+		return nil, err
+	}
+	return &data, nil
 }

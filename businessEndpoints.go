@@ -1,7 +1,6 @@
 package yelp
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 )
@@ -23,11 +22,7 @@ func (bsr *BusinessSearchRequest) Get() (*Businesses, error) {
 	if err != nil {
 		return nil, err
 	}
-	businesses, ok := data.(Businesses)
-	if !ok {
-		return nil, errors.New("failed to convert interface to Businesses")
-	}
-	return &businesses, nil
+	return &data.Businesses, nil
 }
 
 func (bsr *BusinessSearchRequest) GetResponse() (*http.Response, error) {
@@ -51,11 +46,7 @@ func (psr *PhoneSearchRequest) Get() (*Businesses, error) {
 	if err != nil {
 		return nil, err
 	}
-	businesses, ok := data.(Businesses)
-	if !ok {
-		return nil, errors.New("failed to convert interface to Businesses")
-	}
-	return &businesses, nil
+	return &data.Businesses, nil
 }
 
 func (psr *PhoneSearchRequest) GetResponse() (*http.Response, error) {
@@ -81,11 +72,7 @@ func (tsr *TransactionSearchRequest) Get() (*Businesses, error) {
 	if err != nil {
 		return nil, err
 	}
-	businesses, ok := data.(Businesses)
-	if !ok {
-		return nil, errors.New("failed to convert interface to Businesses")
-	}
-	return &businesses, nil
+	return &data.Businesses, nil
 }
 
 func (tsr *TransactionSearchRequest) GetResponse() (*http.Response, error) {
@@ -111,11 +98,7 @@ func (bdr *BusinessDetailsRequest) Get() (*Business, error) {
 	if err != nil {
 		return nil, err
 	}
-	business, ok := data.(Business)
-	if !ok {
-		return nil, errors.New("failed to convert interface to Business")
-	}
-	return &business, nil
+	return &data.Business, nil
 }
 
 func (bdr *BusinessDetailsRequest) GetResponse() (*http.Response, error) {
@@ -139,11 +122,7 @@ func (bmr *BusinessMatchRequest) Get() (*Businesses, error) {
 	if err != nil {
 		return nil, err
 	}
-	businesses, ok := data.(Businesses)
-	if !ok {
-		return nil, errors.New("failed to convert interface to Businesses")
-	}
-	return &businesses, nil
+	return &data.Businesses, nil
 }
 
 func (bmr *BusinessMatchRequest) GetResponse() (*http.Response, error) {
@@ -169,11 +148,7 @@ func (rr *ReviewsRequest) Get() (*Reviews, error) {
 	if err != nil {
 		return nil, err
 	}
-	reviews, ok := data.(Reviews)
-	if !ok {
-		return nil, errors.New("failed to convert interface to Reviews")
-	}
-	return &reviews, nil
+	return &data.Reviews, nil
 }
 
 func (rr *ReviewsRequest) GetResponse() (*http.Response, error) {
@@ -197,11 +172,7 @@ func (acr *AutocompleteRequest) Get() (*Autocomplete, error) {
 	if err != nil {
 		return nil, err
 	}
-	autocomplete, ok := data.(Autocomplete)
-	if !ok {
-		return nil, errors.New("failed to convert interface to Autocomplete")
-	}
-	return &autocomplete, nil
+	return &data.Autocomplete, nil
 }
 
 func (acr *AutocompleteRequest) GetResponse() (*http.Response, error) {
