@@ -1,9 +1,8 @@
 package yelp
 
 import (
-	"encoding/json"
+	"errors"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -16,31 +15,23 @@ type BusinessSearchRequest struct {
 }
 
 func (yc *YelpClient) NewBusinessSearch() *BusinessSearchRequest {
-	return &BusinessSearchRequest{*yc.NewRequest("/businesses/search")}
+	return &BusinessSearchRequest{*yc.NewRequest("/businesses/search", "BusinessSearch")}
 }
 
 func (bsr *BusinessSearchRequest) Get() (*Businesses, error) {
-	response, err := bsr.GetResponse()
+	data, err := bsr.YelpRequest.Get()
 	if err != nil {
-		return &Businesses{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Businesses{}, err
-	}
-	defer response.Body.Close()
-
-	businesses := Businesses{}
-	err = json.Unmarshal(responsebody, &businesses)
-	if err != nil {
-		return &Businesses{}, err
+	businesses, ok := data.(Businesses)
+	if !ok {
+		return nil, errors.New("failed to convert interface to Businesses")
 	}
 	return &businesses, nil
 }
 
 func (bsr *BusinessSearchRequest) GetResponse() (*http.Response, error) {
-	return bsr.YelpRequest.Get()
+	return bsr.YelpRequest.GetResponse()
 }
 
 /*
@@ -52,31 +43,23 @@ type PhoneSearchRequest struct {
 }
 
 func (yc *YelpClient) NewPhoneSearch() *PhoneSearchRequest {
-	return &PhoneSearchRequest{*yc.NewRequest("/businesses/search/phone")}
+	return &PhoneSearchRequest{*yc.NewRequest("/businesses/search/phone", "PhoneSearch")}
 }
 
 func (psr *PhoneSearchRequest) Get() (*Businesses, error) {
-	response, err := psr.GetResponse()
+	data, err := psr.YelpRequest.Get()
 	if err != nil {
-		return &Businesses{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Businesses{}, err
-	}
-	defer response.Body.Close()
-
-	businesses := Businesses{}
-	err = json.Unmarshal(responsebody, &businesses)
-	if err != nil {
-		return &Businesses{}, err
+	businesses, ok := data.(Businesses)
+	if !ok {
+		return nil, errors.New("failed to convert interface to Businesses")
 	}
 	return &businesses, nil
 }
 
 func (psr *PhoneSearchRequest) GetResponse() (*http.Response, error) {
-	return psr.YelpRequest.Get()
+	return psr.YelpRequest.GetResponse()
 }
 
 /*
@@ -89,32 +72,24 @@ type TransactionSearchRequest struct {
 
 func (yc *YelpClient) NewTransactionSearch(transactionType string) *TransactionSearchRequest {
 	return &TransactionSearchRequest{
-		*yc.NewRequest(fmt.Sprintf("/transactions/%s/search", transactionType)),
+		*yc.NewRequest(fmt.Sprintf("/transactions/%s/search", transactionType), "TransactionSearch"),
 	}
 }
 
 func (tsr *TransactionSearchRequest) Get() (*Businesses, error) {
-	response, err := tsr.GetResponse()
+	data, err := tsr.YelpRequest.Get()
 	if err != nil {
-		return &Businesses{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Businesses{}, err
-	}
-	defer response.Body.Close()
-
-	businesses := Businesses{}
-	err = json.Unmarshal(responsebody, &businesses)
-	if err != nil {
-		return &Businesses{}, err
+	businesses, ok := data.(Businesses)
+	if !ok {
+		return nil, errors.New("failed to convert interface to Businesses")
 	}
 	return &businesses, nil
 }
 
 func (tsr *TransactionSearchRequest) GetResponse() (*http.Response, error) {
-	return tsr.YelpRequest.Get()
+	return tsr.YelpRequest.GetResponse()
 }
 
 /*
@@ -127,32 +102,24 @@ type BusinessDetailsRequest struct {
 
 func (yc *YelpClient) NewBusinessDetails(businessId string) *BusinessDetailsRequest {
 	return &BusinessDetailsRequest{
-		*yc.NewRequest(fmt.Sprintf("/businesses/%s", businessId)),
+		*yc.NewRequest(fmt.Sprintf("/businesses/%s", businessId), "BusinessDetails"),
 	}
 }
 
 func (bdr *BusinessDetailsRequest) Get() (*Business, error) {
-	response, err := bdr.GetResponse()
+	data, err := bdr.YelpRequest.Get()
 	if err != nil {
-		return &Business{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Business{}, err
-	}
-	defer response.Body.Close()
-
-	business := Business{}
-	err = json.Unmarshal(responsebody, &business)
-	if err != nil {
-		return &Business{}, err
+	business, ok := data.(Business)
+	if !ok {
+		return nil, errors.New("failed to convert interface to Business")
 	}
 	return &business, nil
 }
 
 func (bdr *BusinessDetailsRequest) GetResponse() (*http.Response, error) {
-	return bdr.YelpRequest.Get()
+	return bdr.YelpRequest.GetResponse()
 }
 
 /*
@@ -164,31 +131,23 @@ type BusinessMatchRequest struct {
 }
 
 func (yc *YelpClient) NewBusinessMatch() *BusinessMatchRequest {
-	return &BusinessMatchRequest{*yc.NewRequest("/businesses/matches")}
+	return &BusinessMatchRequest{*yc.NewRequest("/businesses/matches", "BusinessMatch")}
 }
 
 func (bmr *BusinessMatchRequest) Get() (*Businesses, error) {
-	response, err := bmr.GetResponse()
+	data, err := bmr.YelpRequest.Get()
 	if err != nil {
-		return &Businesses{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Businesses{}, err
-	}
-	defer response.Body.Close()
-
-	businesses := Businesses{}
-	err = json.Unmarshal(responsebody, &businesses)
-	if err != nil {
-		return &Businesses{}, err
+	businesses, ok := data.(Businesses)
+	if !ok {
+		return nil, errors.New("failed to convert interface to Businesses")
 	}
 	return &businesses, nil
 }
 
 func (bmr *BusinessMatchRequest) GetResponse() (*http.Response, error) {
-	return bmr.YelpRequest.Get()
+	return bmr.YelpRequest.GetResponse()
 }
 
 /*
@@ -201,32 +160,24 @@ type ReviewsRequest struct {
 
 func (yc *YelpClient) NewReviews(businessId string) *ReviewsRequest {
 	return &ReviewsRequest{
-		*yc.NewRequest(fmt.Sprintf("/businesses/%s/reviews", businessId)),
+		*yc.NewRequest(fmt.Sprintf("/businesses/%s/reviews", businessId), "Reviews"),
 	}
 }
 
 func (rr *ReviewsRequest) Get() (*Reviews, error) {
-	response, err := rr.GetResponse()
+	data, err := rr.YelpRequest.Get()
 	if err != nil {
-		return &Reviews{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Reviews{}, err
-	}
-	defer response.Body.Close()
-
-	reviews := Reviews{}
-	err = json.Unmarshal(responsebody, &reviews)
-	if err != nil {
-		return &Reviews{}, err
+	reviews, ok := data.(Reviews)
+	if !ok {
+		return nil, errors.New("failed to convert interface to Reviews")
 	}
 	return &reviews, nil
 }
 
 func (rr *ReviewsRequest) GetResponse() (*http.Response, error) {
-	return rr.YelpRequest.Get()
+	return rr.YelpRequest.GetResponse()
 }
 
 /*
@@ -238,29 +189,21 @@ type AutocompleteRequest struct {
 }
 
 func (yc *YelpClient) NewAutocomplete() *AutocompleteRequest {
-	return &AutocompleteRequest{*yc.NewRequest("/autocomplete")}
+	return &AutocompleteRequest{*yc.NewRequest("/autocomplete", "Autocomplete")}
 }
 
 func (acr *AutocompleteRequest) Get() (*Autocomplete, error) {
-	response, err := acr.GetResponse()
+	data, err := acr.YelpRequest.Get()
 	if err != nil {
-		return &Autocomplete{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Autocomplete{}, err
-	}
-	defer response.Body.Close()
-
-	autocomplete := Autocomplete{}
-	err = json.Unmarshal(responsebody, &autocomplete)
-	if err != nil {
-		return &Autocomplete{}, err
+	autocomplete, ok := data.(Autocomplete)
+	if !ok {
+		return nil, errors.New("failed to convert interface to Autocomplete")
 	}
 	return &autocomplete, nil
 }
 
 func (acr *AutocompleteRequest) GetResponse() (*http.Response, error) {
-	return acr.YelpRequest.Get()
+	return acr.YelpRequest.GetResponse()
 }

@@ -1,9 +1,7 @@
 package yelp
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -17,32 +15,21 @@ type EventLookupRequest struct {
 
 func (yc *YelpClient) NewEventLookup(eventId string) *EventLookupRequest {
 	return &EventLookupRequest{
-		*yc.NewRequest(fmt.Sprintf("/events/%s", eventId)),
+		*yc.NewRequest(fmt.Sprintf("/events/%s", eventId), "EventLookup"),
 	}
 }
 
 func (elr *EventLookupRequest) Get() (*Event, error) {
-	response, err := elr.GetResponse()
+	data, err := elr.YelpRequest.Get()
 	if err != nil {
-		return &Event{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Event{}, err
-	}
-	defer response.Body.Close()
-
-	event := Event{}
-	err = json.Unmarshal(responsebody, &event)
-	if err != nil {
-		return &Event{}, err
-	}
+	event := data.(Event)
 	return &event, nil
 }
 
 func (elr *EventLookupRequest) GetResponse() (*http.Response, error) {
-	return elr.YelpRequest.Get()
+	return elr.YelpRequest.GetResponse()
 }
 
 // YelpRequest for the Event Search endpoint.
@@ -53,31 +40,20 @@ type EventSearchRequest struct {
 }
 
 func (yc *YelpClient) NewEventSearch() *EventSearchRequest {
-	return &EventSearchRequest{*yc.NewRequest("/events")}
+	return &EventSearchRequest{*yc.NewRequest("/events", "EventSearch")}
 }
 
 func (esr *EventSearchRequest) Get() (*Events, error) {
-	response, err := esr.GetResponse()
+	data, err := esr.YelpRequest.Get()
 	if err != nil {
-		return &Events{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Events{}, err
-	}
-	defer response.Body.Close()
-
-	events := Events{}
-	err = json.Unmarshal(responsebody, &events)
-	if err != nil {
-		return &Events{}, err
-	}
+	events := data.(Events)
 	return &events, nil
 }
 
 func (esr *EventSearchRequest) GetResponse() (*http.Response, error) {
-	return esr.YelpRequest.Get()
+	return esr.YelpRequest.GetResponse()
 }
 
 // YelpRequest for the Featured Event endpoint.
@@ -88,29 +64,18 @@ type FeaturedEventRequest struct {
 }
 
 func (yc *YelpClient) NewFeaturedEvent() *FeaturedEventRequest {
-	return &FeaturedEventRequest{*yc.NewRequest("/events/featured")}
+	return &FeaturedEventRequest{*yc.NewRequest("/events/featured", "FeaturedEvent")}
 }
 
 func (fer *FeaturedEventRequest) Get() (*Event, error) {
-	response, err := fer.GetResponse()
+	data, err := fer.YelpRequest.Get()
 	if err != nil {
-		return &Event{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Event{}, err
-	}
-	defer response.Body.Close()
-
-	event := Event{}
-	err = json.Unmarshal(responsebody, &event)
-	if err != nil {
-		return &Event{}, err
-	}
+	event := data.(Event)
 	return &event, nil
 }
 
 func (fer *FeaturedEventRequest) GetResponse() (*http.Response, error) {
-	return fer.YelpRequest.Get()
+	return fer.YelpRequest.GetResponse()
 }

@@ -1,9 +1,8 @@
 package yelp
 
 import (
-	"encoding/json"
+	"errors"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -16,31 +15,23 @@ type AllCategoriesRequest struct {
 }
 
 func (yc *YelpClient) NewAllCategories() *AllCategoriesRequest {
-	return &AllCategoriesRequest{*yc.NewRequest("/categories")}
+	return &AllCategoriesRequest{*yc.NewRequest("/categories", "AllCategories")}
 }
 
 func (acr *AllCategoriesRequest) Get() (*AllCategories, error) {
-	response, err := acr.GetResponse()
+	data, err := acr.YelpRequest.Get()
 	if err != nil {
-		return &AllCategories{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &AllCategories{}, err
+	categories, ok := data.(AllCategories)
+	if !ok {
+		return nil, errors.New("failed to convert interface to AllCategories")
 	}
-	defer response.Body.Close()
-
-	allCategories := AllCategories{}
-	err = json.Unmarshal(responsebody, &allCategories)
-	if err != nil {
-		return &AllCategories{}, err
-	}
-	return &allCategories, nil
+	return &categories, nil
 }
 
 func (acr *AllCategoriesRequest) GetResponse() (*http.Response, error) {
-	return acr.YelpRequest.Get()
+	return acr.YelpRequest.GetResponse()
 }
 
 /*
@@ -53,30 +44,22 @@ type CategoryDetailsRequest struct {
 
 func (yc *YelpClient) NewCategoryDetails(categoryAlias string) *CategoryDetailsRequest {
 	return &CategoryDetailsRequest{
-		*yc.NewRequest(fmt.Sprintf("/categories/%s", categoryAlias)),
+		*yc.NewRequest(fmt.Sprintf("/categories/%s", categoryAlias), "CategoryDetails"),
 	}
 }
 
 func (acr *CategoryDetailsRequest) Get() (*Category, error) {
-	response, err := acr.GetResponse()
+	data, err := acr.YelpRequest.Get()
 	if err != nil {
-		return &Category{}, err
+		return nil, err
 	}
-
-	responsebody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return &Category{}, err
-	}
-	defer response.Body.Close()
-
-	categoryWrapper := CategoryWrapper{}
-	err = json.Unmarshal(responsebody, &categoryWrapper)
-	if err != nil {
-		return &Category{}, err
+	categoryWrapper, ok := data.(CategoryWrapper)
+	if !ok {
+		return nil, errors.New("failed to convert interface to CategoryWrapper")
 	}
 	return &categoryWrapper.Category, nil
 }
 
 func (acr *CategoryDetailsRequest) GetResponse() (*http.Response, error) {
-	return acr.YelpRequest.Get()
+	return acr.YelpRequest.GetResponse()
 }

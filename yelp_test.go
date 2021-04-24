@@ -47,7 +47,7 @@ func TestYelpClientSingleFieldCreation(t *testing.T) {
 func TestYelpClientNewRequest(t *testing.T) {
 	client := YelpClient{}
 	path := "/businesses/search"
-	req := client.NewRequest(path)
+	req := client.NewRequest(path, "BusinessSearch")
 
 	if req.path != BaseYelpUrl+path {
 		t.Fatalf(`YelpRequest.path = %q, expected %q`, req.path, path)
@@ -56,7 +56,7 @@ func TestYelpClientNewRequest(t *testing.T) {
 
 func TestYelpRequestAddParameter(t *testing.T) {
 	client := YelpClient{}
-	req := client.NewRequest("")
+	req := client.NewRequest("", "")
 	expected := "test"
 
 	req.AddParameter(expected, expected)
@@ -70,15 +70,15 @@ func TestYelpRequestAddParameter(t *testing.T) {
 	}
 }
 
-func TestYelpRequestGet(t *testing.T) {
+func TestYelpRequestGetResponse(t *testing.T) {
 	client := YelpClient{
 		key: os.Getenv("YELP_API_KEY"),
 	}
-	req := client.NewRequest("/businesses/search")
+	req := client.NewRequest("/businesses/search", "BusinessSearch")
 
 	req.AddParameter("location", "Victoria, Canada")
 
-	res, err := req.Get()
+	res, err := req.GetResponse()
 	if err != nil {
 		t.Fatalf(`YelpRequest.Get error: %q`, err)
 	}
@@ -89,16 +89,16 @@ func TestYelpRequestGet(t *testing.T) {
 	}
 }
 
-func TestYelpRequestGetWithTimeout(t *testing.T) {
+func TestYelpRequestGetResponseWithTimeout(t *testing.T) {
 	client := YelpClient{
 		key:     os.Getenv("YELP_API_KEY"),
 		timeout: 30,
 	}
-	req := client.NewRequest("/businesses/search")
+	req := client.NewRequest("/businesses/search", "BusinessSearch")
 
 	req.AddParameter("location", "Victoria, Canada")
 
-	res, err := req.Get()
+	res, err := req.GetResponse()
 	if err != nil {
 		t.Fatalf(`YelpRequest.Get error: %q`, err)
 	}
@@ -109,15 +109,30 @@ func TestYelpRequestGetWithTimeout(t *testing.T) {
 	}
 }
 
-func TestYelpRequestGetInvalidKey(t *testing.T) {
+func TestYelpRequestGetInvalidEndpoint(t *testing.T) {
 	client := YelpClient{
-		key: "Invalid",
+		key:     os.Getenv("YELP_API_KEY"),
+		timeout: 30,
 	}
-	req := client.NewRequest("/businesses/search")
+	req := client.NewRequest("/businesses/search", "")
 
 	req.AddParameter("location", "Victoria, Canada")
 
-	res, err := req.Get()
+	_, err := req.Get()
+	if err == nil {
+		t.Fatalf(`Unexpected success`)
+	}
+}
+
+func TestYelpRequestGetResponseInvalidKey(t *testing.T) {
+	client := YelpClient{
+		key: "Invalid",
+	}
+	req := client.NewRequest("/businesses/search", "BusinessSearch")
+
+	req.AddParameter("location", "Victoria, Canada")
+
+	res, err := req.GetResponse()
 	if err == nil {
 		t.Fatalf(`Unexpected success`)
 	}
@@ -138,12 +153,12 @@ func TestYelpRequestInvalidParams(t *testing.T) {
 	client := YelpClient{
 		key: os.Getenv("YELP_API_KEY"),
 	}
-	req := client.NewRequest("/businesses/search")
+	req := client.NewRequest("/businesses/search", "BusinessSearch")
 
 	// Not adding any parameters. Yelp Fusion requests at least the
 	// 'location' parameter to be given for the business search.
 
-	res, err := req.Get()
+	res, err := req.GetResponse()
 	if err == nil {
 		t.Fatalf(`Unexpected success`)
 	}
