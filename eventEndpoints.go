@@ -2,7 +2,6 @@ package yelp
 
 import (
 	"fmt"
-	"net/http"
 )
 
 /*
@@ -27,10 +26,6 @@ func (elr *EventLookupRequest) Get() (*Event, error) {
 	return &data.Event, nil
 }
 
-func (elr *EventLookupRequest) GetResponse() (*http.Response, error) {
-	return elr.Request.GetResponse()
-}
-
 // Request for the Event Search endpoint.
 //
 // https://www.yelp.com/developers/documentation/v3/event_search
@@ -50,10 +45,6 @@ func (esr *EventSearchRequest) Get() (*Events, error) {
 	return &data.Events, nil
 }
 
-func (esr *EventSearchRequest) GetResponse() (*http.Response, error) {
-	return esr.Request.GetResponse()
-}
-
 // Request for the Featured Event endpoint.
 //
 // https://www.yelp.com/developers/documentation/v3/featured_event
@@ -71,8 +62,4 @@ func (fer *FeaturedEventRequest) Get() (*Event, error) {
 		return nil, err
 	}
 	return &data.Event, nil
-}
-
-func (fer *FeaturedEventRequest) GetResponse() (*http.Response, error) {
-	return fer.Request.GetResponse()
 }

@@ -2,7 +2,6 @@ package yelp
 
 import (
 	"fmt"
-	"net/http"
 )
 
 /*
@@ -25,10 +24,6 @@ func (acr *AllCategoriesRequest) Get() (*Categories, error) {
 	return &data.Categories, nil
 }
 
-func (acr *AllCategoriesRequest) GetResponse() (*http.Response, error) {
-	return acr.Request.GetResponse()
-}
-
 /*
 Request for the Category Details endpoint.
 https://www.yelp.com/developers/documentation/v3/category
@@ -49,8 +44,4 @@ func (acr *CategoryDetailsRequest) Get() (*Category, error) {
 		return nil, err
 	}
 	return &data.CategoryWrapper.Category, nil
-}
-
-func (acr *CategoryDetailsRequest) GetResponse() (*http.Response, error) {
-	return acr.Request.GetResponse()
 }
