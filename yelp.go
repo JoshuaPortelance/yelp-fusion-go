@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 const BaseYelpUrl = "https://api.yelp.com/v3"
@@ -51,7 +52,7 @@ func (r *YelpRequest) Get() (*http.Response, error) {
 	req.URL.RawQuery = params.Encode()
 
 	// Sending the request.
-	client := &http.Client{}
+	client := &http.Client{Timeout: time.Duration(r.YelpClient.timeout) * time.Second}
 	res, err := client.Do(req)
 	if err != nil {
 		return res, err

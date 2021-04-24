@@ -89,6 +89,26 @@ func TestYelpRequestGet(t *testing.T) {
 	}
 }
 
+func TestYelpRequestGetWithTimeout(t *testing.T) {
+	client := YelpClient{
+		key:     os.Getenv("YELP_API_KEY"),
+		timeout: 30,
+	}
+	req := client.NewRequest("/businesses/search")
+
+	req.AddParameter("location", "Victoria, Canada")
+
+	res, err := req.Get()
+	if err != nil {
+		t.Fatalf(`YelpRequest.Get error: %q`, err)
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode == 0 {
+		t.Fatalf(`YelpRequest.Get Invalid status: %d`, res.StatusCode)
+	}
+}
+
 func TestYelpRequestGetInvalidKey(t *testing.T) {
 	client := YelpClient{
 		key: "Invalid",
