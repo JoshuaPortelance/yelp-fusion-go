@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+// Event Lookup (and also Search) endpoint tests.
+
 func TestNewEventSearchAndLookup(t *testing.T) {
 	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
@@ -33,6 +35,8 @@ func TestNewEventSearchAndLookup(t *testing.T) {
 		t.Fatalf(`Invalid event. %v+`, event)
 	}
 }
+
+// Event Search endpoint tests.
 
 func TestNewEventSearch(t *testing.T) {
 	client := Client{
@@ -70,6 +74,8 @@ func TestNewEventSearchResponse(t *testing.T) {
 		t.Fatalf(`Unexpected status: %d`, response.StatusCode)
 	}
 }
+
+// Featured Event endpoint tests.
 
 func TestNewFeaturedEventGet(t *testing.T) {
 	client := Client{

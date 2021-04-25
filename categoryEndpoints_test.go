@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+// All Categories endpoint tests.
+
 func TestNewAllCategoriesGet(t *testing.T) {
 	client := Client{
 		key: os.Getenv("YELP_API_KEY"),
@@ -43,6 +45,8 @@ func TestNewAllCategoriesGetResponse(t *testing.T) {
 		t.Fatalf(`Unexpected status: %d`, response.StatusCode)
 	}
 }
+
+// Category Details endpoint tests.
 
 func TestNewCategoryDetailsGet(t *testing.T) {
 	client := Client{
