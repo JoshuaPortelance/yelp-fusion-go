@@ -1,6 +1,6 @@
 # yelp-fusion-go
 [![Build Status](https://travis-ci.com/JoshuaPortelance/go-yelp.svg?token=qaKmxckZFKPT1MXTqhmw&branch=main)](https://travis-ci.com/JoshuaPortelance/go-yelp)
-[![codecov](https://codecov.io/gh/JoshuaPortelance/go-yelp/branch/main/graph/badge.svg?token=F8G736FYQ3)](https://codecov.io/gh/JoshuaPortelance/go-yelp)
+[![codecov](https://codecov.io/gh/JoshuaPortelance/yelp-fusion-go/branch/main/graph/badge.svg?token=F8G736FYQ3)](https://codecov.io/gh/JoshuaPortelance/yelp-fusion-go)
 
 A Yelp Fusion API golang package with no external dependencies.
 
