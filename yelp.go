@@ -56,7 +56,7 @@ func (r *Request) GetResponse() (*http.Response, error) {
 	req.URL.RawQuery = params.Encode()
 
 	// Sending the request.
-	client := &http.Client{Timeout: time.Duration(r.Client.Timeout) * time.Second}
+	client := &http.Client{Timeout: time.Duration(r.Client.Timeout) * time.Millisecond}
 	res, err := client.Do(req)
 	if err != nil {
 		return res, err

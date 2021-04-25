@@ -92,7 +92,7 @@ func TestRequestGetResponse(t *testing.T) {
 func TestRequestGetResponseWithTimeout(t *testing.T) {
 	client := Client{
 		Key:     os.Getenv("YELP_API_KEY"),
-		Timeout: 30,
+		Timeout: 5000,
 	}
 	req := client.NewRequest("/businesses/search", "BusinessSearch")
 

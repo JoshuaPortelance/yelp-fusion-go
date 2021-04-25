@@ -8,7 +8,7 @@ Please refer to official [Yelp Fusion documentation](https://www.yelp.com/develo
 
 <br/>
 
-## Table of Contents
+# Table of Contents
 [Usage Information:](#Usage-Information)
 
   * [Intallation](#Intallation)
@@ -16,6 +16,8 @@ Please refer to official [Yelp Fusion documentation](https://www.yelp.com/develo
   * Endpoint Request Interface:
     * [Get](#get)
     * [GetResponse](#get)
+
+  * [Request Timeout](#Request-Timeout)
 
 [Examples:](#Examples)
 
@@ -46,7 +48,6 @@ Please refer to official [Yelp Fusion documentation](https://www.yelp.com/develo
 ```bash
 go get github.com/JoshuaPortelance/yelp-fusion-go
 ```
-<br/>
 
 ## Endpoint Request Interface
 
@@ -65,10 +66,14 @@ func (r *Request) GetResponse() (*http.Response, error)
 ```
 The open [http.Response](https://golang.org/pkg/net/http/#Response) will need to be closed manually.
 
-<br/>
-
 ## Request Timeout
-You can set the timeout
+Timeout will set the [http.Client](https://golang.org/pkg/net/http/#Client) Timeout duration to abort the request if the server doesn't complete the response within that time in milliseconds.
+```golang
+client := yelp.Client{
+    Key:     "YOUR_API_KEY",
+    Timeout: 5000,
+}
+```
 
 # Examples
 
@@ -76,7 +81,7 @@ You can set the timeout
 
 ### Business Search
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewBusinessSearch()
 search.AddParameter("location", "Victoria, British Columbia")
 search.AddParameter("term", "Red Fish Blue Fish")
@@ -86,7 +91,7 @@ fmt.Println(data.Businesses[0].Name)
 
 ### Phone Search
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewPhoneSearch()
 search.AddParameter("phone", "+12502986877")
 data, _ := search.Get()
@@ -95,7 +100,7 @@ fmt.Println(data.Businesses[0].Name)
 
 ### Transaction Search
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewTransactionSearch("delivery")
 search.AddParameter("location", "Seattle, Washington")
 data, _ := search.Get()
@@ -104,7 +109,7 @@ fmt.Println(data.Businesses[0].Name)
 
 ### Business Details
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewBusinessDetails("red-fish-blue-fish-victoria")
 search.AddParameter("location", "Victoria, British Columbia")
 data, _ := search.Get()
@@ -113,7 +118,7 @@ fmt.Println(data.Name)
 
 ### Business Match
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewBusinessMatch()
 search.AddParameter("name", "Red Fish Blue Fish")
 search.AddParameter("address1", "1006 Wharf Street")
@@ -126,7 +131,7 @@ fmt.Println(data.Businesses[0].Name)
 
 ### Reviews
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewReviews("red-fish-blue-fish-victoria")
 search.AddParameter("location", "Victoria, British Columbia")
 data, _ := search.Get()
@@ -135,7 +140,7 @@ fmt.Println(data.Reviews[0].Text)
 
 ### Autocomplete
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewAutocomplete()
 search.AddParameter("text", "Red Fish")
 search.AddParameter("latitude", "48.4243002")
@@ -149,7 +154,7 @@ fmt.Println(data.Terms[0].Text)
 
 ### Event Lookup
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewEventLookup("red-fish-blue-fish-victoria")
 data, _ := search.Get()
 fmt.Println(data.Description)
@@ -157,7 +162,7 @@ fmt.Println(data.Description)
 
 ### Event Search
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewEventSearch()
 search.AddParameter("location", "Victoria, British Columbia")
 data, _ := search.Get()
@@ -166,7 +171,7 @@ fmt.Println(data.Events[0].Name)
 
 ### Featured Event
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewFeaturedEvent()
 search.AddParameter("location", "Victoria, British Columbia")
 data, _ := search.Get()
@@ -179,7 +184,7 @@ fmt.Println(data.Description)
 
 ### All Categories
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewAllCategories()
 data, _ := search.Get()
 fmt.Println(data.Categories[0].Alias)
@@ -187,7 +192,7 @@ fmt.Println(data.Categories[0].Alias)
 
 ### Category Details
 ```golang
-client := yelp.Client{Key:"YOUR_API_KEY"};
+client := yelp.Client{Key:"YOUR_API_KEY"}
 search := client.NewCategoryDetails("arts")
 data, _ := search.Get()
 fmt.Println(data.Title)
