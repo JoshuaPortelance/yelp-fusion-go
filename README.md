@@ -2,9 +2,9 @@
 [![Build Status](https://travis-ci.com/JoshuaPortelance/go-yelp.svg?token=qaKmxckZFKPT1MXTqhmw&branch=main)](https://travis-ci.com/JoshuaPortelance/go-yelp)
 [![codecov](https://codecov.io/gh/JoshuaPortelance/yelp-fusion-go/branch/main/graph/badge.svg?token=F8G736FYQ3)](https://codecov.io/gh/JoshuaPortelance/yelp-fusion-go)
 
-A Yelp Fusion API golang package with no external dependencies.
+A Yelp Fusion API Golang package with no external dependencies.
 
-Please refer to official [Yelp Fusion documentation](https://www.yelp.com/developers/documentation/v3) for the request/response models.
+Please refer to the official [Yelp Fusion documentation](https://www.yelp.com/developers/documentation/v3) for the request/response models.
 
 # Table of Contents
 [Usage Information:](#Usage-Information)
