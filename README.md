@@ -6,8 +6,6 @@ A Yelp Fusion API golang package with no external dependencies.
 
 Please refer to official [Yelp Fusion documentation](https://www.yelp.com/developers/documentation/v3) for the request/response models.
 
-<br/>
-
 # Table of Contents
 [Usage Information:](#Usage-Information)
 
@@ -38,8 +36,6 @@ Please refer to official [Yelp Fusion documentation](https://www.yelp.com/develo
   * Category Endpoints:
     * [All Categories](#all-categories)
     * [Category Details](#category-details)
-
-<br/>
 
 # Usage Information
 
@@ -148,7 +144,6 @@ search.AddParameter("longitude", "-123.3706659")
 data, _ := search.Get()
 fmt.Println(data.Terms[0].Text)
 ```
-<br/>
 
 ## Event Endpoints
 
@@ -177,8 +172,6 @@ search.AddParameter("location", "Victoria, British Columbia")
 data, _ := search.Get()
 fmt.Println(data.Description)
 ```
-
-<br/>
 
 ## Category Endpoints 
 
