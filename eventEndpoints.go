@@ -5,59 +5,61 @@ import (
 )
 
 /*
-Request for the Event Lookup endpoint.
+Request type and override(s) for the Event Lookup endpoint.
 https://www.yelp.com/developers/documentation/v3/event
 */
 type EventLookupRequest struct {
 	Request
 }
 
-func (yc *Client) NewEventLookup(eventId string) *EventLookupRequest {
+func (c *Client) NewEventLookup(eventId string) *EventLookupRequest {
 	return &EventLookupRequest{
-		*yc.NewRequest(fmt.Sprintf("/events/%s", eventId), "EventLookup"),
+		*c.NewRequest(fmt.Sprintf("/events/%s", eventId), "EventLookup"),
 	}
 }
 
-func (elr *EventLookupRequest) Get() (*Event, error) {
-	data, err := elr.Request.Get()
+func (r *EventLookupRequest) Get() (*Event, error) {
+	data, err := r.Request.Get()
 	if err != nil {
 		return nil, err
 	}
 	return &data.Event, nil
 }
 
-// Request for the Event Search endpoint.
-//
-// https://www.yelp.com/developers/documentation/v3/event_search
+/*
+Request type and override(s) for the Event Search endpoint.
+https://www.yelp.com/developers/documentation/v3/event_search
+*/
 type EventSearchRequest struct {
 	Request
 }
 
-func (yc *Client) NewEventSearch() *EventSearchRequest {
-	return &EventSearchRequest{*yc.NewRequest("/events", "EventSearch")}
+func (c *Client) NewEventSearch() *EventSearchRequest {
+	return &EventSearchRequest{*c.NewRequest("/events", "EventSearch")}
 }
 
-func (esr *EventSearchRequest) Get() (*Events, error) {
-	data, err := esr.Request.Get()
+func (r *EventSearchRequest) Get() (*Events, error) {
+	data, err := r.Request.Get()
 	if err != nil {
 		return nil, err
 	}
 	return &data.Events, nil
 }
 
-// Request for the Featured Event endpoint.
-//
-// https://www.yelp.com/developers/documentation/v3/featured_event
+/*
+Request type and override(s) for the Featured Event endpoint.
+https://www.yelp.com/developers/documentation/v3/featured_event
+*/
 type FeaturedEventRequest struct {
 	Request
 }
 
-func (yc *Client) NewFeaturedEvent() *FeaturedEventRequest {
-	return &FeaturedEventRequest{*yc.NewRequest("/events/featured", "FeaturedEvent")}
+func (c *Client) NewFeaturedEvent() *FeaturedEventRequest {
+	return &FeaturedEventRequest{*c.NewRequest("/events/featured", "FeaturedEvent")}
 }
 
-func (fer *FeaturedEventRequest) Get() (*Event, error) {
-	data, err := fer.Request.Get()
+func (r *FeaturedEventRequest) Get() (*Event, error) {
+	data, err := r.Request.Get()
 	if err != nil {
 		return nil, err
 	}

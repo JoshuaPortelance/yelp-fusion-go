@@ -123,7 +123,7 @@ func (r *Request) Get() (*GetReturnType, error) {
 		data.CategoryWrapper = CategoryWrapper{}
 		err = json.Unmarshal(responsebody, &data.CategoryWrapper)
 	default:
-		return nil, errors.New("unknown endpoint key")
+		err = errors.New("unknown endpoint key")
 	}
 
 	if err != nil {
