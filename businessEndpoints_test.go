@@ -11,7 +11,7 @@ import (
 
 func TestNewPhoneSearchGet(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 
 	phoneReq := client.NewPhoneSearch()
@@ -30,7 +30,7 @@ func TestNewPhoneSearchGet(t *testing.T) {
 
 func TestNewPhoneSearchGetResponse(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	phoneReq := client.NewPhoneSearch()
 	phoneReq.AddParameter("phone", "+12502986877")
@@ -53,7 +53,7 @@ func TestNewPhoneSearchGetResponse(t *testing.T) {
 
 func TestNewTransactionSearchGet(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	transactionReq := client.NewTransactionSearch("delivery")
 	transactionReq.AddParameter("location", "Seattle, Washington")
@@ -71,7 +71,7 @@ func TestNewTransactionSearchGet(t *testing.T) {
 
 func TestNewTransactionSearchGetResponse(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	transactionReq := client.NewTransactionSearch("delivery")
 	transactionReq.AddParameter("location", "Seattle, Washington")
@@ -94,7 +94,7 @@ func TestNewTransactionSearchGetResponse(t *testing.T) {
 
 func TestNewBusinessMatchGet(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	businessMatchReq := client.NewBusinessMatch()
 	businessMatchReq.AddParameter("name", "Red Fish Blue Fish")
@@ -116,7 +116,7 @@ func TestNewBusinessMatchGet(t *testing.T) {
 
 func TestNewBusinessMatchGetResponse(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	businessMatchReq := client.NewBusinessMatch()
 	businessMatchReq.AddParameter("name", "Red Fish Blue Fish")
@@ -143,7 +143,7 @@ func TestNewBusinessMatchGetResponse(t *testing.T) {
 
 func TestNewAutocompleteGet(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	autocompleteReq := client.NewAutocomplete()
 	autocompleteReq.AddParameter("text", "Red Fish")
@@ -163,7 +163,7 @@ func TestNewAutocompleteGet(t *testing.T) {
 
 func TestNewAutocompleteGetResponse(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	autocompleteReq := client.NewAutocomplete()
 	autocompleteReq.AddParameter("text", "Red Fish")
@@ -190,7 +190,7 @@ func TestNewAutocompleteGetResponse(t *testing.T) {
 
 func TestNewBusinessSearchAndDetailsAndReviewsGet(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	businessesReq := client.NewBusinessSearch()
 	businessesReq.AddParameter("location", "Victoria, Canada")

@@ -13,13 +13,13 @@ import (
 const BaseYelpUrl = "https://api.yelp.com/v3"
 
 type Client struct {
-	key     string
-	timeout int
+	Key     string
+	Timeout int
 }
 
 func (c *Client) NewRequest(path string, endpoint string) *Request {
 	return &Request{
-		Client:   Client{c.key, c.timeout},
+		Client:   Client{c.Key, c.Timeout},
 		path:     BaseYelpUrl + path,
 		endpoint: endpoint,
 		params:   make(map[string]string),
@@ -46,7 +46,7 @@ func (r *Request) GetResponse() (*http.Response, error) {
 	}
 
 	// Adding API key to the headers.
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", r.key))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", r.Key))
 
 	// Adding all of the parameters to the URL.
 	params := url.Values{}
@@ -56,7 +56,7 @@ func (r *Request) GetResponse() (*http.Response, error) {
 	req.URL.RawQuery = params.Encode()
 
 	// Sending the request.
-	client := &http.Client{Timeout: time.Duration(r.Client.timeout) * time.Second}
+	client := &http.Client{Timeout: time.Duration(r.Client.Timeout) * time.Second}
 	res, err := client.Do(req)
 	if err != nil {
 		return res, err

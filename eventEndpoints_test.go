@@ -11,7 +11,7 @@ import (
 
 func TestNewEventSearchAndLookup(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	eventsReq := client.NewEventSearch()
 	events, eventsErr := eventsReq.Get()
@@ -40,7 +40,7 @@ func TestNewEventSearchAndLookup(t *testing.T) {
 
 func TestNewEventSearch(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	eventsReq := client.NewEventSearch()
 	data, err := eventsReq.Get()
@@ -57,7 +57,7 @@ func TestNewEventSearch(t *testing.T) {
 
 func TestNewEventSearchResponse(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	eventsReq := client.NewEventSearch()
 	response, err := eventsReq.GetResponse()
@@ -79,7 +79,7 @@ func TestNewEventSearchResponse(t *testing.T) {
 
 func TestNewFeaturedEventGet(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	eventReq := client.NewFeaturedEvent()
 	eventReq.AddParameter("location", "Seattle, Washington")
@@ -94,7 +94,7 @@ func TestNewFeaturedEventGet(t *testing.T) {
 
 func TestNewFeaturedEventGetResponse(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	eventReq := client.NewFeaturedEvent()
 	eventReq.AddParameter("location", "Vancouver, Canada")

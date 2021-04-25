@@ -11,14 +11,14 @@ func TestClientCreation(t *testing.T) {
 	timeout := 5000
 
 	client := Client{
-		key:     apiKey,
-		timeout: timeout,
+		Key:     apiKey,
+		Timeout: timeout,
 	}
-	if client.key != apiKey {
-		t.Fatalf(`Client.key = %q, expected %q`, client.key, apiKey)
+	if client.Key != apiKey {
+		t.Fatalf(`Client.key = %q, expected %q`, client.Key, apiKey)
 	}
-	if client.timeout != timeout {
-		t.Fatalf(`Client.timeout = %q, expected %q`, client.timeout, timeout)
+	if client.Timeout != timeout {
+		t.Fatalf(`Client.timeout = %q, expected %q`, client.Timeout, timeout)
 	}
 }
 
@@ -27,20 +27,20 @@ func TestClientDefaultCreation(t *testing.T) {
 	timeout := 0
 
 	client := Client{}
-	if client.key != apiKey {
-		t.Fatalf(`Client.key = %q, expected %q`, client.key, apiKey)
+	if client.Key != apiKey {
+		t.Fatalf(`Client.key = %q, expected %q`, client.Key, apiKey)
 	}
-	if client.timeout != timeout {
-		t.Fatalf(`Client.timeout = %q, expected %q`, client.timeout, timeout)
+	if client.Timeout != timeout {
+		t.Fatalf(`Client.timeout = %q, expected %q`, client.Timeout, timeout)
 	}
 }
 
 func TestClientSingleFieldCreation(t *testing.T) {
 	apiKey := "test"
 
-	client := Client{key: apiKey}
-	if client.key != apiKey {
-		t.Fatalf(`Client.key = %q, expected %q`, client.key, apiKey)
+	client := Client{Key: apiKey}
+	if client.Key != apiKey {
+		t.Fatalf(`Client.key = %q, expected %q`, client.Key, apiKey)
 	}
 }
 
@@ -72,7 +72,7 @@ func TestRequestAddParameter(t *testing.T) {
 
 func TestRequestGetResponse(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	req := client.NewRequest("/businesses/search", "BusinessSearch")
 
@@ -91,8 +91,8 @@ func TestRequestGetResponse(t *testing.T) {
 
 func TestRequestGetResponseWithTimeout(t *testing.T) {
 	client := Client{
-		key:     os.Getenv("YELP_API_KEY"),
-		timeout: 30,
+		Key:     os.Getenv("YELP_API_KEY"),
+		Timeout: 30,
 	}
 	req := client.NewRequest("/businesses/search", "BusinessSearch")
 
@@ -111,8 +111,8 @@ func TestRequestGetResponseWithTimeout(t *testing.T) {
 
 func TestRequestGetInvalidEndpoint(t *testing.T) {
 	client := Client{
-		key:     os.Getenv("YELP_API_KEY"),
-		timeout: 30,
+		Key:     os.Getenv("YELP_API_KEY"),
+		Timeout: 30,
 	}
 	req := client.NewRequest("/businesses/search", "")
 
@@ -126,7 +126,7 @@ func TestRequestGetInvalidEndpoint(t *testing.T) {
 
 func TestRequestGetResponseInvalidKey(t *testing.T) {
 	client := Client{
-		key: "Invalid",
+		Key: "Invalid",
 	}
 	req := client.NewRequest("/businesses/search", "BusinessSearch")
 
@@ -151,7 +151,7 @@ func TestRequestGetResponseInvalidKey(t *testing.T) {
 
 func TestRequestInvalidParams(t *testing.T) {
 	client := Client{
-		key: os.Getenv("YELP_API_KEY"),
+		Key: os.Getenv("YELP_API_KEY"),
 	}
 	req := client.NewRequest("/businesses/search", "BusinessSearch")
 
